@@ -11,6 +11,8 @@ function init() {
   const sendChatBtn = document.createElement('button');
   const chatContainer = document.createElement('div');
 
+  chatContainer.id = 'chatContainer';
+
   sendChatBtn.innerText = 'Send'
   sendChatBtn.addEventListener('click', () => {
     const chatMessage = chatInput.value;
@@ -24,5 +26,14 @@ function init() {
   app.append(chatInput, sendChatBtn, chatContainer)
 
 }
+
+socket.on('chat', (msg) => {
+  console.log('msg', msg);
+
+  let chatContainer = document.getElementById('chatContainer');
+
+  chatContainer.innerHTML += msg;
+
+})
 
 init()

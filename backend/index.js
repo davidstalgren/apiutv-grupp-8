@@ -14,6 +14,11 @@ const io = require('socket.io')(server, {
 
 io.on('connection', (socket) => {
     console.log('Loggad in användare');
+
+    socket.on('chat', (msg) => {
+        console.log('msg', msg);
+        io.emit('chat', msg)
+    })
 })
 
 server.listen(3000)
