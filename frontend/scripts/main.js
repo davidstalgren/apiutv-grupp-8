@@ -1,41 +1,25 @@
-import '../style.css'
+import '../style.css';
 import { io } from 'socket.io-client';
 import { renderAddUsers } from './addUsers'; 
+import { renderUserChat } from './userChat';
+import { renderStartInformation } from './information';
 const socket = io('http://localhost:3000');
-
 
 function init() {
 
   const app = document.getElementById('app');
 
-  const chatInput = document.createElement('input');
-  const sendChatBtn = document.createElement('button');
-  const chatContainer = document.createElement('div');
-
-  chatContainer.id = 'chatContainer';
-
-  sendChatBtn.innerText = 'Send'
-  sendChatBtn.addEventListener('click', () => {
-    const chatMessage = chatInput.value;
-
-    if (chatMessage) {
-      socket.emit('chat', chatMessage);
-      chatInput.value = '';
-    }
-  })
-
-  app.append(chatInput, sendChatBtn, chatContainer)
+  renderUserChat();
   renderAddUsers();
-}
+  renderStartInformation();
+};
 
 socket.on('chat', (msg) => {
   console.log('msg', msg);
 
-  let chatContainer = document.getElementById('chatContainer');
-
-  chatContainer.innerHTML += msg;
-
-})
+  let chatMessageContainer = document.querySelector('.chatMessageContainer');
+  chatMessageContainer.innerHTML += msg;
+});
 
 
-init()
+init();
