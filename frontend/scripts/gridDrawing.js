@@ -1,16 +1,35 @@
 const app = document.querySelector('#app');
 
+const userColor = 1;
+
+let gridLayout = [
+    [0,0,0,0,0, 0,0,0,0,0, 0,0,0,0,0],        
+    [0,0,0,0,0, 0,0,0,0,0, 0,0,0,0,0],        
+    [0,0,0,0,0, 0,0,0,0,0, 0,0,0,0,0],        
+    [0,0,0,0,0, 0,0,0,0,0, 0,0,0,0,0],        
+    [0,0,0,0,0, 0,0,0,0,0, 0,0,0,0,0],        
+    [0,0,0,0,0, 0,0,0,0,0, 0,0,0,0,0],        
+    [0,0,0,0,0, 0,0,0,0,0, 0,0,0,0,0],        
+    [0,0,0,0,0, 0,0,0,0,0, 0,0,0,0,0],        
+    [0,0,0,0,0, 0,0,0,0,0, 0,0,0,0,0],        
+    [0,0,0,0,0, 0,0,0,0,0, 0,0,0,0,0],        
+    [0,0,0,0,0, 0,0,0,0,0, 0,0,0,0,0],        
+    [0,0,0,0,0, 0,0,0,0,0, 0,0,0,0,0],        
+    [0,0,0,0,0, 0,0,0,0,0, 0,0,0,0,0],        
+    [0,0,0,0,0, 0,0,0,0,0, 0,0,0,0,0],        
+    [0,0,0,0,0, 0,0,0,0,0, 0,0,0,0,0],        
+    ]
+
 export function renderGridContainer() {
     const gridContainer = document.createElement('div');
     gridContainer.className = 'gridContainer';
 
     app.append(gridContainer);
 
-    gridDrawing();
+    gridDrawing(gridLayout);
 }
 
-
-export function gridDrawing() {
+export function gridDrawing(gridLayout) {
 
     const gridContainer = document.querySelector('.gridContainer');
     gridContainer.innerHTML = '';
@@ -24,23 +43,6 @@ export function gridDrawing() {
         '#43B241',
     ]
 
-    const gridLayout = [
-        [0,0,0,0,0, 0,0,0,0,0, 0,0,0,0,0],        
-        [0,0,0,0,0, 0,0,0,0,0, 0,0,0,0,0],        
-        [0,0,0,0,0, 0,0,0,0,0, 0,0,0,0,0],        
-        [0,0,0,0,0, 0,0,0,0,0, 0,0,0,0,0],        
-        [0,0,1,0,0, 0,0,0,0,0, 0,0,0,0,0],        
-        [0,0,0,0,0, 0,0,0,0,0, 0,0,0,0,0],        
-        [0,0,0,0,0, 0,0,0,0,0, 0,0,0,0,0],        
-        [0,0,0,0,0, 0,0,1,0,0, 0,0,0,0,0],        
-        [0,0,0,0,0, 0,0,0,0,1, 0,0,0,0,0],        
-        [0,0,0,0,0, 0,0,0,0,0, 0,0,0,0,0],        
-        [0,0,0,0,0, 0,0,0,0,0, 0,0,0,0,0],        
-        [0,0,0,0,0, 0,0,0,0,0, 0,0,0,0,0],        
-        [0,0,0,0,0, 0,0,0,0,0, 0,0,0,0,0],        
-        [0,0,0,0,0, 0,0,0,0,0, 0,0,0,0,0],        
-        [0,0,0,0,0, 0,0,0,0,0, 0,0,0,0,0],        
-        ]
 
     for(let i = 0; i < rows; i++) {
 
@@ -50,6 +52,22 @@ export function gridDrawing() {
             pixel.style.backgroundColor = colors[gridLayout[i][j]];
 
             gridContainer.append(pixel);
+
+            pixel.addEventListener('click', () => {
+                pixelClick(i, j, userColor);
+            })    
         }
     }
+}
+
+export function pixelClick(i, j, userColor) {
+
+    if (gridLayout[i][j] === userColor) {
+        gridLayout[i][j] = 0;
+        gridDrawing(gridLayout);
+        return;
+    }
+    gridLayout[i][j] = userColor;
+    gridDrawing(gridLayout);
+    console.log(i, j, userColor);
 }
