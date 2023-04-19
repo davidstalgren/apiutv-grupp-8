@@ -1,8 +1,11 @@
+import { io } from 'socket.io-client';
+const socket = io('http://localhost:3000');
+
 const app = document.querySelector('#app');
 
 const userColor = 1;
 
-let gridLayout = [
+const starterGrid = [
     [0,0,0,0,0, 0,0,0,0,0, 0,0,0,0,0],        
     [0,0,0,0,0, 0,0,0,0,0, 0,0,0,0,0],        
     [0,0,0,0,0, 0,0,0,0,0, 0,0,0,0,0],        
@@ -18,7 +21,7 @@ let gridLayout = [
     [0,0,0,0,0, 0,0,0,0,0, 0,0,0,0,0],        
     [0,0,0,0,0, 0,0,0,0,0, 0,0,0,0,0],        
     [0,0,0,0,0, 0,0,0,0,0, 0,0,0,0,0],        
-    ]
+]
 
 export function renderGridContainer() {
     const gridContainer = document.createElement('div');
@@ -26,7 +29,7 @@ export function renderGridContainer() {
 
     app.append(gridContainer);
 
-    gridDrawing(gridLayout);
+    gridDrawing(starterGrid);
 }
 
 export function gridDrawing(gridLayout) {
@@ -61,13 +64,12 @@ export function gridDrawing(gridLayout) {
 }
 
 export function pixelClick(i, j, userColor) {
-
-    if (gridLayout[i][j] === userColor) {
-        gridLayout[i][j] = 0;
-        gridDrawing(gridLayout);
-        return;
+    const sendData = {
+        i:i,
+        j:j,
+        userColor:userColor,
     }
-    gridLayout[i][j] = userColor;
-    gridDrawing(gridLayout);
+
+    socket.emit('drawing', sendData);
     console.log(i, j, userColor);
 }
