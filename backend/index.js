@@ -35,14 +35,14 @@ io.on('connection', (socket) => {
         io.emit('chat', msg)
     })
 
-    socket.on('drawing', (sendData) => {
+    socket.on('drawing', (recivedData) => {
         
-        if (gridLayout[sendData.i][sendData.j] === sendData.userColor) {
-            gridLayout[sendData.i][sendData.j] = 0;
+        if (gridLayout[recivedData.i][recivedData.j] === recivedData.userColor) {
+            gridLayout[recivedData.i][recivedData.j] = 0;
             io.emit('drawing', gridLayout)
             return;
         }
-        gridLayout[sendData.i][sendData.j] = sendData.userColor;
+        gridLayout[recivedData.i][recivedData.j] = recivedData.userColor;
         io.emit('drawing', gridLayout)
     })
 })
