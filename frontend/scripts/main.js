@@ -21,6 +21,14 @@ socket.on('chat', (msg) => {
 
   let chatMessageContainer = document.querySelector('.chatMessageContainer');
   chatMessageContainer.innerHTML += msg;
+
+});
+
+socket.on('drawing', (msg) => {
+
+  let chatMessageContainer = document.querySelector('.chatMessageContainer');
+  chatMessageContainer.innerHTML += msg;
+
 });
 
 

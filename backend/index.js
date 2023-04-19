@@ -19,6 +19,11 @@ io.on('connection', (socket) => {
         console.log('msg', msg);
         io.emit('chat', msg)
     })
+
+    socket.on('drawing', (msg) => {
+        console.log('msg', msg);
+        io.emit('drawing', msg)
+    })
 })
 
 server.listen(3000)
