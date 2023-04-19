@@ -1,6 +1,6 @@
 import '../style.css'
 import { io } from 'socket.io-client';
-import { addUsersRender } from './addUsers'; 
+import { renderAddUsers } from './addUsers'; 
 const socket = io('http://localhost:3000');
 
 
@@ -25,7 +25,7 @@ function init() {
   })
 
   app.append(chatInput, sendChatBtn, chatContainer)
-  addUsersRender();
+  renderAddUsers();
 }
 
 socket.on('chat', (msg) => {

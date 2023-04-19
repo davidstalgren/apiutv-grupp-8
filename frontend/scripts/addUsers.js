@@ -2,7 +2,7 @@ const app = document.querySelector('#app');
 const div = document.createElement('div');
 div.className = 'userContainer';
 
-export function addUsersRender() {
+export function renderAddUsers() {
     const label = document.createElement('label');
     const inputElement = document.createElement('input');
     const btn = document.createElement('button');
