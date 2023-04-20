@@ -16,10 +16,12 @@ function printPreviewCountdown() {
     console.log('Count down');
     
     const container = document.createElement('div');
+    const heading = document.createElement('h3');
     const progress = document.createElement('progress');
     const timerText = document.createElement('p');
 
     container.className = 'previewCountdownContainer';
+    heading.innerHTML = 'Countdown';
     progress.value = 0;
     progress.max = 10;
 
@@ -35,6 +37,6 @@ function printPreviewCountdown() {
         timer -= 1;
     }, 1000);
 
-    container.append(progress, timerText);
+    container.append(heading, progress, timerText);
     app.appendChild(container);
 ;}
