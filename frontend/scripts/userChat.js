@@ -35,3 +35,19 @@ export function renderUserChat() {
   chatContainer.append(chatInput, sendChatBtn, chatMessageContainer);
   app.append(chatContainer);
 };
+
+export function renderUserMessages(user) {
+  let chatMessageContainer = document.querySelector('.chatMessageContainer');
+
+  const messageElement = document.createElement('p');
+  messageElement.innerHTML = `${user.name}: ${user.message}`;
+
+  chatMessageContainer.append(messageElement);
+
+  if (user.color === 1) {
+    messageElement.classList = 'chatUserMe';
+  }
+  else {
+    messageElement.classList = 'chatUserOther';
+  }
+}

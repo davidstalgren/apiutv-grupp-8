@@ -1,7 +1,7 @@
 import '../style/style.css';
 import { io } from 'socket.io-client';
 import { renderAddUsers } from './addUsers'; 
-import { renderUserChat } from './userChat';
+import { renderUserChat, renderUserMessages } from './userChat';
 import { renderStartInformation } from './information';
 import { gridDrawing, renderGridContainer } from './gridDrawing';
 const socket = io('http://localhost:3000');
@@ -16,12 +16,9 @@ function init() {
   renderGridContainer();
 };
 
-socket.on('chat', (msg) => {
-  console.log('msg', msg);
-
-  let chatMessageContainer = document.querySelector('.chatMessageContainer');
-  chatMessageContainer.innerHTML += msg;
-
+socket.on('chat', (user) => {
+  console.log('msg', user);
+  renderUserMessages(user);
 });
 
 socket.on('drawing', (gridlayout) => {
