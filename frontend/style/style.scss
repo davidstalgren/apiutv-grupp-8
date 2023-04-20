@@ -5,6 +5,7 @@
 #app{
   display: flex;
   justify-content: space-around;
+  flex-direction: column;
 }
 
 
@@ -21,10 +22,10 @@ h1 {
   padding-left: 45px;
   padding-top: 25px;
   text-shadow: 4px 4px #DC2121;
+  font-family: 'Inter', sans-serif;
 }
 
 .headerDiv{
-  width: 98vw;
   display:flex;
   justify-content:space-between;
   background-color: #43B241;
@@ -44,11 +45,11 @@ h1 {
 .footer{
   font-size:larger;
   background-color: #43B241;
-  width:98vw;
   display:flex;
   justify-content:end;
   color: #F2F2F2;
   text-shadow: 1px 1px #DC2121;
+  font-family: 'Inter', sans-serif;
 }
 
 .footerP{
@@ -62,9 +63,9 @@ h1 {
 
 .userContainer{
   background-color: #E8E8E8;
-  width: 98vw;
   display: flex;
   justify-content: end;
+  font-family: 'Inter', sans-serif;
 }
 
 .loginParts{
@@ -80,7 +81,7 @@ h1 {
   margin: 15px;
   font-size: 1.5rem;
   color:#222222;
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: 'Inter', sans-serif;
 }
 
 
