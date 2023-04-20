@@ -9,6 +9,7 @@ export function renderStartInformation() {
     const rules = ['First rule', 'second rule', 'third rule'];
     const startBtn = document.createElement('button');
 
+
     rules.forEach(rule => {
         const li = document.createElement('li');
         li.innerHTML = rule;
@@ -16,12 +17,13 @@ export function renderStartInformation() {
         information.appendChild(li);
     });
 
+    infoContainer.className = 'infoContainer';
     startBtn.className = 'startBtn';
 
     heading.innerHTML = 'Regler';
     startBtn.innerHTML = 'Starta';
 
-    infoContainer.append(heading, startBtn, information);
+    infoContainer.append(startBtn, heading, information);
     app.appendChild(infoContainer);
 
     startBtn.addEventListener('click', startGame);

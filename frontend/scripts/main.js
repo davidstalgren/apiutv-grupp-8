@@ -1,4 +1,4 @@
-import '../style.css';
+import '../style/style.css';
 import { io } from 'socket.io-client';
 import { renderAddUsers } from './addUsers'; 
 import { renderUserChat } from './userChat';
