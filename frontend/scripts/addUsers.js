@@ -1,3 +1,5 @@
+import { initAdminMode } from "./admin";
+
 const app = document.querySelector('#app');
 const div = document.createElement('div');
 div.className = 'userContainer';
@@ -18,20 +20,29 @@ export function renderAddUsers() {
     div.append(label,inputElement, btn);
     
     btn.addEventListener('click', () => {
-        fetch("http://localhost:3000/users", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",      
-            },
-            body: JSON.stringify({newName:inputElement.value})
-        })
-        .then(res => res.json())
-        .then(data => {
-            console.log(data)
-        })
-        .catch ((err) => {
-            console.log(err)
-        });
+
+        if (inputElement.value === 'admin') {
+
+            console.log('admin wanna play');
+            initAdminMode();
+            
+        } else {
+            
+            fetch("http://localhost:3000/users", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",      
+                },
+                body: JSON.stringify({newName:inputElement.value})
+            })
+            .then(res => res.json())
+            .then(data => {
+                console.log(data)
+            })
+            .catch ((err) => {
+                console.log(err)
+            });
+        }
     });
     app.appendChild(div);
 }
