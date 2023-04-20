@@ -8,20 +8,30 @@ export function renderUserChat() {
   const chatContainer = document.createElement('div');
   const chatMessageContainer = document.createElement('div');
 
-  chatInput.placeholder = 'Type message';
+  chatInput.className = 'chatInput';
+  sendChatBtn.className = 'sendChatBtn';
   chatContainer.className = 'chatContainer';
   chatMessageContainer.className = 'chatMessageContainer';
+  
+  chatInput.placeholder = 'Type message';
+  sendChatBtn.innerText = 'Send';
 
-  sendChatBtn.innerText = 'Send'
   sendChatBtn.addEventListener('click', () => {
     const chatMessage = chatInput.value;
 
+    //userInfo är hårdkodad här för att testa, ska ändras!
+    let userInfo = {
+      message: chatMessage,
+      name: "Test", // user.name
+      color: 1, // user.color
+    }
+
     if (chatMessage) {
-      socket.emit('chat', chatMessage);
+      socket.emit('chat', userInfo);
       chatInput.value = '';
     }
   });
 
-  chatContainer.append(chatInput, sendChatBtn, chatMessageContainer)
+  chatContainer.append(chatInput, sendChatBtn, chatMessageContainer);
   app.append(chatContainer);
 };
