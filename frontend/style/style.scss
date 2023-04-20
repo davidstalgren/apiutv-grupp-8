@@ -31,11 +31,13 @@ h1 {
 .infoContainer {
   display: flex;
   flex-direction: column;
+  font-family: Arial, Helvetica, sans-serif;
   background-color: #d3d3d3;
   padding: 2em;
 
   button.startBtn {
     background-color: #efefef;
+    text-transform: uppercase;
     border-radius: 4px;
     border: none;
     padding: 0.8em 3em;
@@ -45,8 +47,8 @@ h1 {
 
   .ruleContainer {
     background-color: #dfdede;
-    height: 18em;
-    width: 15em;
+    width: 20em;
+    padding: 1em;
 
     h2 {
       text-align: center;
@@ -58,6 +60,8 @@ h1 {
       li {
         list-style-type: none;
         line-height: 20px;
+        margin-top: 0.5em;
+        margin-bottom: 0.5em;
       }
     }
   }
@@ -65,7 +69,16 @@ h1 {
 
 .previewCountdownContainer {
   background-color: #d3d3d3;
+  font-family: Arial, Helvetica, sans-serif;
   padding: 2em;
+
+  progress {
+    padding: 0.8em;
+  }
+
+  p {
+    text-align: center;
+  }
 }
 
 .footer{
