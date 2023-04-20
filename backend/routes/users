@@ -1,0 +1,27 @@
+var express = require('express');
+var router = express.Router();
+const connection = require('../conn');
+const mysql = require('mysql2');
+
+router.post('/', (req, res) => {
+    let newUser = req.body;
+    console.log(req.body);
+
+    connection.connect(function (err) {
+        if (err) {
+            console.log(err);
+        }
+
+        let sql = `INSERT INTO users (userName) VALUES (${mysql.escape(newUser.newName)})`;
+
+        connection.query(sql, function(err, result) {
+        if (err) {
+            console.log(err)
+          }
+          console.log("result", result);
+          res.send(result);
+      })
+    })
+  });
+
+  module.exports = router;
