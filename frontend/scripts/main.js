@@ -10,8 +10,8 @@ function init() {
 
   const app = document.getElementById('app');
 
-  renderUserChat();
   renderAddUsers();
+  renderUserChat();
   renderStartInformation();
   renderGridContainer();
 };
