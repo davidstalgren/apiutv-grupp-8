@@ -5,7 +5,7 @@
 #app{
   display: flex;
   justify-content: space-around;
-  flex-direction: column;
+  //flex-direction: column;
 }
 
 
@@ -40,7 +40,7 @@ h1 {
 .infoContainer {
   display: flex;
   flex-direction: column;
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: 'Inter', sans-serif;
   background-color: #d3d3d3;
   padding: 2em;
 
@@ -76,10 +76,19 @@ h1 {
   }
 }
 
-.previewCountdownContainer {
+.countdownContainer {
+  display: flex;
+  flex-direction: column;
   background-color: #d3d3d3;
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: 'Inter', sans-serif;
+  min-height: 23em;
   padding: 2em;
+
+  .innerContainer {
+    background-color: #dfdede;
+    min-height: 20em;
+    padding: 1em;
+  }
 
   progress {
     padding: 0.8em;
@@ -87,6 +96,16 @@ h1 {
 
   p {
     text-align: center;
+  }
+
+  button.finishBtn {
+    background-color: #efefef;
+    text-transform: uppercase;
+    border-radius: 4px;
+    border: none;
+    padding: 0.5em 3em;
+    margin-bottom: 1em;
+    cursor: pointer;
   }
 }
 
