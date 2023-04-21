@@ -3,8 +3,42 @@ var router = express.Router();
 const connection = require('../conn');
 const mysql = require('mysql2');
 
+
+
 router.post('/', (req, res) => {
-    let newUser = req.body;
+  let newUser = req.body;
+
+  connection.connect(function (err) {
+    if (err) {
+        console.log(err);
+    }
+
+    let sql = `SELECT userColor FROM users WHERE userColor > 0`         //Antalet personer som redan ligger inne stry vilken siffra nästa användare får. 
+
+
+    connection.query(sql, function(err, result) {
+    if (err) {
+        console.log(err)
+      }
+      console.log("result", result);
+      console.log(result.length);
+      if (result == undefined) {
+        userColor = 1;
+        saveUser(req, res, color);
+      } else if (result.length < 4) {
+        console.log(result);
+        userColor = result.length + 1
+        saveUser(req, res, userColor);
+      } else {
+        res.send(404)
+      }
+    })
+  })
+}) 
+
+
+function saveUser (req, res, userColor) {
+    let userName = req.body;
     console.log(req.body);
 
     connection.connect(function (err) {
@@ -12,16 +46,37 @@ router.post('/', (req, res) => {
             console.log(err);
         }
 
-        let sql = `INSERT INTO users (userName) VALUES (${mysql.escape(newUser.newName)})`;
+        let sql = `INSERT INTO users (userName, userColor) VALUES (${mysql.escape(userName.newName)}, ${userColor})`;
 
         connection.query(sql, function(err, result) {
         if (err) {
             console.log(err)
           }
-          console.log("result", result);
-          res.send(result);
+          //console.log("result", result);
+          res.json({userName, userColor});
       })
     })
-  });
+  };
+
+
+  router.post('/colors', (req, res) => {
+    let users = req.body;
+  
+    connection.connect(function (err) {
+      if (err) {
+        console.log(err);
+      }
+  
+      let sql = `SELECT userName, userColor FROM users`
+  
+      connection.query(sql, function(err, result) {
+        if (err) {
+          console.log(err);
+        }
+        console.log('result', result);
+        res.json(result);
+      })
+    })
+  })
 
   module.exports = router;
