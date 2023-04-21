@@ -1,9 +1,17 @@
 const app = require('express')();
 const server = require('http').createServer(app);
+const cors = require('cors');
+app.use(require('express').json());
+app.use(cors());
+
+var userRouter = require('./routes/users')
+app.use('/users', userRouter);
 
 app.get('/', (req, res) => {
     res.send('fungerar servern?');
 });
+
+
 
 const io = require('socket.io')(server, {
     cors: {

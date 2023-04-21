@@ -1,9 +1,18 @@
+
+
 @import './normalize';
 
 #app{
   display: flex;
   justify-content: space-around;
+  flex-direction: column;
 }
+
+
+/*----------------------------------------------------------------------------------------------------------
+-----------------------  HEADER AND FOOTER -----------------------------------------------------------------
+----------------------------------------------------------------------------------------------------------*/
+
 
 h1 {
   font-size: 10rem;
@@ -13,10 +22,10 @@ h1 {
   padding-left: 45px;
   padding-top: 25px;
   text-shadow: 4px 4px #DC2121;
+  font-family: 'Inter', sans-serif;
 }
 
 .headerDiv{
-  width: 99.5vw;
   display:flex;
   justify-content:space-between;
   background-color: #43B241;
@@ -84,16 +93,53 @@ h1 {
 .footer{
   font-size:larger;
   background-color: #43B241;
-  width:99.5vw;
   display:flex;
   justify-content:end;
   color: #F2F2F2;
   text-shadow: 1px 1px #DC2121;
+  font-family: 'Inter', sans-serif;
 }
 
 .footerP{
   margin-right:15px;
 }
+
+
+/*-------------------------------------------------------------------------------------------------------------
+--------------------- LOGIN AND NAME & COLORDIV ---------------------------------------------------------------
+-------------------------------------------------------------------------------------------------------------*/
+
+.userContainer{
+  background-color: #E8E8E8;
+  display: flex;
+  justify-content: end;
+  font-family: 'Inter', sans-serif;
+}
+
+.loginParts{
+  margin: 15px;
+  font-size: 1.3rem;
+  border-radius: 5px;
+  background-color: #D9D9D9;
+  color:#222222;
+  padding:5px;
+}
+
+.loginText{
+  margin: 15px;
+  font-size: 1.5rem;
+  color:#222222;
+  font-family: 'Inter', sans-serif;
+}
+
+
+
+
+
+
+
+
+
 
 .gridContainer {
   display: grid;
