@@ -1,14 +1,24 @@
+$app-red: #DC2121;
+$app-yellow: #FFDF36;
+$app-blue: #3648EC;
+$app-green: #43B241;
+$app-white: #F2F2F2;
+$app-black: #222222;
+$app-darkergray: #D3D3D3;
+$app-lightergray: #EFEFEF;
+
 .chatContainer {
     width: 30vw;
     height: 70vh;
     font-family: 'Inter', sans-serif;
-    border: 1px solid black;    
+    border: 1px solid $app-black;    
     border-radius: 5px;
     padding: 5px;
     margin: 5px;
     display: flex;
     flex-direction: column;
     position: relative;
+    background-color: $app-white;
 }
 
 .chatMessageContainer {
@@ -18,9 +28,10 @@
 
 .chatHeading {
     text-align: center;
-    background-color: aliceblue;
     margin: 0;
     padding: 15px;
+    background-color: $app-darkergray;
+    color: $app-black;
 }
 
 .chatInput {
@@ -31,11 +42,13 @@
     margin: 5px;
     border-radius: 5px;
     width: 60%;
+    background-color: $app-lightergray;
+    color: $app-black;
 }
 
 .sendChatBtn {
-    background-color: rgb(66, 131, 189);   
-    color: white; 
+    background-color: $app-green;  
+    color: $app-white; 
     width: 30%;
     padding: 5px 20px 5px 20px;
     margin: 5px;
@@ -47,14 +60,14 @@
 }
 
 .sendChatBtn:hover {
-    background-color: rgb(34, 76, 112);   
+    background-color: #296928;
 }
 
 .chatUserMe, .chatUserOther {
     width: 60%;
     padding: 3px;
     margin: 5px;
-    background-color: rgb(225, 225, 225);
+    background-color: $app-yellow; //test, ska ändras så att färg ändras för olika användare
     padding: 10px;
     border-radius: 30px 30px 0px 30px;
 }
@@ -69,17 +82,17 @@
 }
 
 .chatUserRed {
-    color: red;
+    background-color: $app-red;
 }
 
 .chatUserBlue {
-    color: blue;
+    background-color: $app-blue;
 }
 
 .chatUserGreen {
-    color: green;
+    background-color: $app-green;
 }
 
 .chatUserYellow {
-    color: yellow;
+    background-color: $app-yellow;
 }
