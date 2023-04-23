@@ -1,5 +1,9 @@
 const app = document.querySelector('#app');
 
+
+
+
+
 let userColor = 0;
 
 export function initAdminMode() {
@@ -7,7 +11,14 @@ export function initAdminMode() {
 
     app.innerHTML = '';
 
+    let adminSection = document.createElement('section');
+    adminSection.classList.add('admin__section');
+
+    app.appendChild(adminSection);
+    let adminSectionEl = document.querySelector('.admin__section');
+
     let colorSelectorDiv = document.createElement('div');
+    colorSelectorDiv.classList.add('admin__colorSelectorDiv');
 
     let color0 = document.createElement('button');
     color0.classList.add('admin__changeColorBtn');
@@ -36,7 +47,7 @@ export function initAdminMode() {
 
     colorSelectorDiv.append(color0, color1, color2, color3, color4);
 
-    app.append(colorSelectorDiv);
+    adminSectionEl.append(colorSelectorDiv);
     
     color0.addEventListener('click', () => {
         return userColor = 0;
@@ -59,9 +70,8 @@ export function initAdminMode() {
     });
 
     renderAdminGridContainer();
+    renderSaveAndLoadBtns();
 }
-
-
 
 const starterGrid = [
     [0,0,0,0,0, 0,0,0,0,0, 0,0,0,0,0],        
@@ -100,10 +110,11 @@ let gridLayout = [
 ]
 
 function renderAdminGridContainer() {
+    let adminSectionEl = document.querySelector('.admin__section');
     const gridContainer = document.createElement('div');
     gridContainer.className = 'gridContainer';
 
-    app.append(gridContainer);
+    adminSectionEl.append(gridContainer);
 
     gridDrawing(starterGrid);
 }
@@ -139,8 +150,6 @@ export function gridDrawing(gridLayout) {
     }
 }
 
-
-
 function pixelClick(i, j, userColor) {
     
     if (gridLayout[i][j] === userColor) {
@@ -153,3 +162,35 @@ function pixelClick(i, j, userColor) {
     gridDrawing(gridLayout);
 
 }
+
+function renderSaveAndLoadBtns() {
+    let adminSectionEl = document.querySelector('.admin__section');
+
+    let saveBtn = document.createElement('button');
+    saveBtn.innerText = 'Save';
+    saveBtn.classList.add('admin__saveBtn');
+
+    adminSectionEl.appendChild(saveBtn);
+
+    saveBtn.addEventListener('click', () => {
+        postDrawingToDb(gridLayout)
+    })
+
+}
+
+function postDrawingToDb(gridLayout) {
+    console.log('click', gridLayout);
+
+    fetch('http://localhost:3000/admin', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({gridLayout})
+    })
+    .then(res => res.json())
+    .then(data => {
+        console.log('saved drawing', data);
+    })
+}
+
