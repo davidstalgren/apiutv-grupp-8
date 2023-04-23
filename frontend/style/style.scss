@@ -59,7 +59,7 @@ h1 {
     width: 20em;
     padding: 1em;
 
-    h2 {
+    h2, p {
       text-align: center;
     }
 
@@ -72,6 +72,12 @@ h1 {
         margin-top: 0.5em;
         margin-bottom: 0.5em;
       }
+    }
+
+    div.divider {
+      border-top: 2px solid #222222;
+      width: 80%;
+      margin: 1.5em;
     }
   }
 }

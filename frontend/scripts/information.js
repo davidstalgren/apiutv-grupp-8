@@ -16,6 +16,8 @@ export function renderStartInformation() {
         'Spelaren kan därefter visa tidigare målade bilder eller spela igen'
     ];
     const startBtn = document.createElement('button');
+    const divider = document.createElement('div');
+    const playersReady = document.createElement('p');
 
     rules.forEach(rule => {
         const li = document.createElement('li');
@@ -27,11 +29,13 @@ export function renderStartInformation() {
     infoContainer.className = 'infoContainer';
     ruleContainer.className = 'ruleContainer';
     startBtn.className = 'startBtn';
+    divider.className = 'divider';
 
     heading.innerHTML = 'Information';
     startBtn.innerHTML = 'Starta';
+    playersReady.innerHTML = '0 av 4 Spelare redo';
 
-    ruleContainer.append(heading, information);
+    ruleContainer.append(heading, information, divider, playersReady);
     infoContainer.append(startBtn, ruleContainer);
     app.appendChild(infoContainer);
 
