@@ -3,16 +3,19 @@ const socket = io('http://localhost:3000');
 const app = document.querySelector('#app');
 
 export function renderUserChat() {
+  const chatHeading = document.createElement('h3');
   const chatInput = document.createElement('input');
   const sendChatBtn = document.createElement('button');
   const chatContainer = document.createElement('div');
   const chatMessageContainer = document.createElement('div');
 
+  chatHeading.className = 'chatHeading';
   chatInput.className = 'chatInput';
   sendChatBtn.className = 'sendChatBtn';
   chatContainer.className = 'chatContainer';
   chatMessageContainer.className = 'chatMessageContainer';
   
+  chatHeading.innerText = 'Chatt';
   chatInput.placeholder = 'Type message';
   sendChatBtn.innerText = 'Send';
 
@@ -32,7 +35,7 @@ export function renderUserChat() {
     }
   });
 
-  chatContainer.append(chatInput, sendChatBtn, chatMessageContainer);
+  chatContainer.append(chatHeading, chatMessageContainer, chatInput, sendChatBtn);
   app.append(chatContainer);
 };
 
