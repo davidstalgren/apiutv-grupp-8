@@ -1,5 +1,7 @@
 const app = document.querySelector('#app');
 const div = document.createElement('div');
+import { io } from 'socket.io-client';
+const socket = io('http://localhost:3000');
 div.className = 'userContainer';
 
 export function renderAddUsers() {
@@ -17,75 +19,55 @@ export function renderAddUsers() {
 
     div.append(label,inputElement, btn);
     
-    btn.addEventListener('click', () => {
-        fetch("http://localhost:3000/users", {
+    btn.addEventListener('click', () => {  
+        const userName = inputElement.value
+        fetch("http://localhost:3000/users/", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",      
             },
             body: JSON.stringify({newName:inputElement.value})
         })
-        .then(res =>  {
-            if(!res.ok) {
-                throw new Error();
-            }
-
-            return res.json();
-        })
-
+        .then(res => res.json())
         .then(data => {
-            console.log(data)
-            getUserAndColordiv(); 
-            /*
-            *   spara namn id och färg i lokalstarage !!!!!!!
-            */
+            localStorage.setItem("userData", JSON.stringify({userName:data.userName, userId:data.userId}))  //spara användaren i mappen userData i localstorage med userName och userId.
+            socket.emit('login', userName)
         })
         .catch ((err) => {
             console.log(err)
             const userContainer = document.querySelector('.userContainer');
-            userContainer.innerHTML = "";
             const inlogErrorMessege = document.createElement('p')
-            inlogErrorMessege.innerHTML = ('Error! The game is full. Try again later! :)');
+            inlogErrorMessege.innerHTML = ('Error! User already exist. Try a new one! :)');
             inlogErrorMessege.style.color = 'red';
             userContainer.appendChild(inlogErrorMessege);
-
         });
     });
     app.appendChild(div);
 }
 
-export function getUserAndColordiv () {
+export function drawPlayers(playerTabel) {
+    localStorage.setItem("playerTabel", JSON.stringify({playerTabel:playerTabel}))    // spara spelarrayn i localstorage
     const userContainer = document.querySelector('.userContainer');
-    userContainer.innerHTML = "";
-    fetch("http://localhost:3000/users/colors", {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json",
-        },
-    })
-    .then(res => res.json())
-    .then(data => {
-        let users = data;
+    userContainer.innerHTML = '';
+    playerTabel.map(user => {
+        
+        let showName = document.createElement('p');
+        showName.innerHTML = user.userName;
+        showName.className = ('showColorDivName');
+        userContainer.appendChild(showName);
+        let showColor = document.createElement('div');
+        showColor.className = ('showColorDiv');
+        userContainer.appendChild(showColor);
 
-        users.map(user => {
-            let showName = document.createElement('p');
-            showName.innerHTML = user.userName;
-            showName.className = ('showColorDivName');
-            userContainer.appendChild(showName);
-
-            let showColor = document.createElement('div');
-            showColor.className = ('showColorDiv');
-            userContainer.appendChild(showColor);
-
-            if (user.userColor == 1) {
-                showColor.style.backgroundColor = '#DC2121';
-            } else if (user.userColor == 2) {
-                showColor.style.backgroundColor = '#FFDF36';
-            } else if (user.userColor == 3) {
-                showColor.style.backgroundColor = '#3648EC';
-            } else if (user.userColor == 4){
-                showColor.style.backgroundColor = '#43B241'; 
-            }
-        })
+        if (user.userColor == 1) {
+            showColor.style.backgroundColor = '#DC2121';
+        } else if (user.userColor == 2) {
+            showColor.style.backgroundColor = '#FFDF36';
+        } else if (user.userColor == 3) {
+            showColor.style.backgroundColor = '#3648EC';
+        } else if (user.userColor == 4){
+            showColor.style.backgroundColor = '#43B241'; 
+        }
     })
 }
+
