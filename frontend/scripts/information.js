@@ -1,6 +1,9 @@
+import { io } from 'socket.io-client';
 import { startPicturePreview} from "./gameplay";
+const socket = io('http://localhost:3000');
 
 const app = document.querySelector('#app');
+let readyPlayers = 0;
 
 export function renderStartInformation() {
     const infoContainer = document.createElement('article');
@@ -33,11 +36,20 @@ export function renderStartInformation() {
 
     heading.innerHTML = 'Information';
     startBtn.innerHTML = 'Starta';
-    playersReady.innerHTML = '0 av 4 Spelare redo';
+    playersReady.innerHTML = readyPlayers + ' av 4 Spelare redo';
 
     ruleContainer.append(heading, information, divider, playersReady);
     infoContainer.append(startBtn, ruleContainer);
     app.appendChild(infoContainer);
 
-    startBtn.addEventListener('click', startPicturePreview);
+    startBtn.addEventListener('click', () => {
+        socket.emit('readyPlayers', readyPlayers++);
+        playersReady.innerHTML = readyPlayers + ' av 4 Spelare redo';
+
+        if(readyPlayers === 4) {
+            console.log('Start Game!');
+            startPicturePreview();
+        };
+    });
 };
+

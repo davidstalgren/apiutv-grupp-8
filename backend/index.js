@@ -41,7 +41,7 @@ io.on('connection', (socket) => {
     socket.on('chat', (msg) => {
         console.log('msg', msg);
         io.emit('chat', msg)
-    })
+    });
 
     socket.on('drawing', (recivedData) => {
         
@@ -52,7 +52,12 @@ io.on('connection', (socket) => {
         }
         gridLayout[recivedData.i][recivedData.j] = recivedData.userColor;
         io.emit('drawing', gridLayout)
-    })
-})
+    });
+
+    socket.on('readyPlayers', (player) => {
+        console.log('Player ready', player);
+        io.emit('Player ready', player);
+    });
+});
 
 server.listen(3000)
