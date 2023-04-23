@@ -1,0 +1,85 @@
+.chatContainer {
+    width: 30vw;
+    height: 70vh;
+    font-family: 'Inter', sans-serif;
+    border: 1px solid black;    
+    border-radius: 5px;
+    padding: 5px;
+    margin: 5px;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+}
+
+.chatMessageContainer {
+    display: flex;
+    flex-direction: column;
+}
+
+.chatHeading {
+    text-align: center;
+    background-color: aliceblue;
+    margin: 0;
+    padding: 15px;
+}
+
+.chatInput {
+    position: absolute;
+    bottom: 0px;
+    left: 5px;
+    padding: 5px;
+    margin: 5px;
+    border-radius: 5px;
+    width: 60%;
+}
+
+.sendChatBtn {
+    background-color: rgb(66, 131, 189);   
+    color: white; 
+    width: 30%;
+    padding: 5px 20px 5px 20px;
+    margin: 5px;
+    border-radius: 5px;
+    position: absolute;
+    bottom: 0px;
+    right: 5px;
+    cursor: pointer;
+}
+
+.sendChatBtn:hover {
+    background-color: rgb(34, 76, 112);   
+}
+
+.chatUserMe, .chatUserOther {
+    width: 60%;
+    padding: 3px;
+    margin: 5px;
+    background-color: rgb(225, 225, 225);
+    padding: 10px;
+    border-radius: 30px 30px 0px 30px;
+}
+
+.chatUserMe {
+    border-radius: 30px 30px 0px 30px;
+    align-self: flex-end;
+}
+
+.chatUserOther { 
+    border-radius: 30px 30px 30px 0px;
+}
+
+.chatUserRed {
+    color: red;
+}
+
+.chatUserBlue {
+    color: blue;
+}
+
+.chatUserGreen {
+    color: green;
+}
+
+.chatUserYellow {
+    color: yellow;
+}
