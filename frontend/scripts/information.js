@@ -18,8 +18,7 @@ export function renderStartInformation() {
         'Spelaren kan därefter visa tidigare målade bilder eller spela igen'
     ];
     const startBtn = document.createElement('button');
-    const divider = document.createElement('div');
-    const playersReady = document.createElement('p');
+    const playerContainer = document.createElement('div');
 
     rules.forEach(rule => {
         const li = document.createElement('li');
@@ -31,24 +30,34 @@ export function renderStartInformation() {
     infoContainer.className = 'infoContainer';
     ruleContainer.className = 'ruleContainer';
     startBtn.className = 'startBtn';
-    divider.className = 'divider';
-    playersReady.className = 'readyPlayerText';
+    playerContainer.className = 'playerContainer';
 
     heading.innerHTML = 'Information';
     startBtn.innerHTML = 'Starta';
-    playersReady.innerHTML = readyPlayersQuantity + ' av 4 spelare redo';
 
-    ruleContainer.append(heading, information, divider, playersReady);
+    ruleContainer.append(heading, information, playerContainer);
     infoContainer.append(startBtn, ruleContainer);
     app.appendChild(infoContainer);
 
-    startBtn.addEventListener('click', () => {
-
-        countPlayers(readyPlayersQuantity);
-    });
+    startBtn.addEventListener('click', countPlayers);
 };
 
-function countPlayers(readyPlayersQuantity) {
-    
+function countPlayers() {
+    const startBtn = document.querySelector('.startBtn');
+    const userData = JSON.parse(localStorage.getItem('userData'));
+
+    startBtn.remove();
+
+    socket.emit('countReadyPlayers', userData.userName);
 };
+
+export function renderReadyPlayers(playerName) {
+    const playerContainer = document.querySelector('.playerContainer');
+    const playersReady = document.createElement('p');
+
+    playerContainer.innerHTML = '';
+
+    playersReady.innerHTML = playerName + ' är redo';
+    playerContainer.appendChild(playersReady);
+}
 

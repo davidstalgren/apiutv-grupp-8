@@ -2,7 +2,7 @@ import '../style/style.css';
 import { io } from 'socket.io-client';
 import { renderAddUsers } from './addUsers'; 
 import { renderUserChat, renderUserMessages } from './userChat';
-import { renderStartInformation } from './information';
+import { renderReadyPlayers, renderStartInformation } from './information';
 import { gridDrawing, renderGridContainer } from './gridDrawing';
 import { drawPlayers } from './addUsers';
 const socket = io('http://localhost:3000');
@@ -32,6 +32,11 @@ socket.on('players', playerTabel => {
   if (localStorage.getItem('userData') != undefined) {
     drawPlayers(playerTabel);
   }
+});
+
+socket.on('countReadyPlayers', (readyPlayer) => {
+  console.log('readyplayer');
+  renderReadyPlayers(readyPlayer);
 });
 
 init();

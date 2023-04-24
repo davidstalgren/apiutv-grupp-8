@@ -39,6 +39,7 @@ const gridLayout = [
 ];
 
 const playerTabel = [{userName:'', userColor:1}, {userName:'', userColor:2}, {userName:'', userColor:3}, {userName:'', userColor:4}]
+const readyPlayers = [];
 
 io.on('connection', (socket) => {
     socket.on('login', (name) => {
@@ -65,9 +66,14 @@ io.on('connection', (socket) => {
         io.emit('drawing', gridLayout)
     });
 
-    socket.on('readyPlayers', (playerCount) => {
+    socket.on('countReadyPlayers', (playerName) => {
+        readyPlayers.push(playerName);
 
-        io.emit('readyPlayers', readyPlayersQuantity);
+        io.emit('countReadyPlayers', readyPlayers);
+
+        if(readyPlayers.length === 4) {
+            console.log('Start game');
+        }
     });
 });
 
