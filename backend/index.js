@@ -38,6 +38,7 @@ const gridLayout = [
 ]
 
 const playerTabel = [{ userName: '', userColor: 1 }, { userName: '', userColor: 2 }, { userName: '', userColor: 3 }, { userName: '', userColor: 4 }]
+const playersWhoAreDone = [];
 
 io.on('connection', (socket) => {
     socket.on('login', (name) => {
@@ -63,13 +64,22 @@ io.on('connection', (socket) => {
         gridLayout[recivedData.i][recivedData.j] = recivedData.userColor;
         io.emit('drawing', gridLayout)
     })
-    socket.on('finishGame', (endGameTrigger) => {
-        //Kolla om alla spelare är klara
-        // Hämta resultatet
-        const resultInProcent = compareWithResult(gridLayout, resultGrid);
-        resetActiveGrid();
-        //Spara de spelar gridet, skicka tillbaka resultatet
-        io.emit('gameIsOver', resultInProcent);
+    
+    socket.on('finishGame', (playerName) => {
+        if (playersWhoAreDone.contains(playerName)) {
+            playersWhoAreDone.pop(playerName);
+            return;
+        }
+        if (playersWhoAreDone.length === 3) {
+            // Alla är klara, hämta resultatet och jämnför
+            const resultInProcent = compareWithResult(gridLayout, resultGrid);
+            resetActiveGrid();
+            playersWhoAreDone = [];
+            //Spara de spelar gridet, skicka tillbaka resultatet
+            io.emit('gameIsOver', resultInProcent);
+            return;
+        }
+        playersWhoAreDone.push(playerName);
     })
 })
 

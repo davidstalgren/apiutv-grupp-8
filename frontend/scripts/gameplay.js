@@ -16,5 +16,6 @@ export function renderFinishBtn() {
     app.appendChild(finishBtn); // test
 }
 export function finishGame() {
-    socket.emit('finishGame', 'This is the end')
+    const userData = localStorage.getItem('userData');
+    socket.emit('finishGame', userData.userName);
 }
