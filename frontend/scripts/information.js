@@ -4,8 +4,6 @@ const socket = io('http://localhost:3000');
 
 const app = document.querySelector('#app');
 
-let starterPlayerCount = 0;
-
 export function renderStartInformation() {
     const infoContainer = document.createElement('article');
     const ruleContainer = document.createElement('div');
@@ -38,36 +36,19 @@ export function renderStartInformation() {
 
     heading.innerHTML = 'Information';
     startBtn.innerHTML = 'Starta';
-    playersReady.innerHTML = starterPlayerCount + ' av 4 spelare redo';
+    playersReady.innerHTML = readyPlayersQuantity + ' av 4 spelare redo';
 
     ruleContainer.append(heading, information, divider, playersReady);
     infoContainer.append(startBtn, ruleContainer);
     app.appendChild(infoContainer);
 
-    /*startBtn.addEventListener('click', () => {
-        readyPlayers++;
-        const playerCount = readyPlayers;
-
-        socket.emit('readyPlayers', playerCount);
-        playersReady.innerHTML = readyPlayers + ' av 4 Spelare redo';
-
-        if(readyPlayers === 4) {
-            console.log('Start Game!');
-            startPicturePreview();
-        };
-    });*/
-
     startBtn.addEventListener('click', () => {
-        starterPlayerCount++;
-        countPlayers(starterPlayerCount);
+
+        countPlayers(readyPlayersQuantity);
     });
 };
 
-function countPlayers(newPlayerCount) {
-    socket.emit('readyPlayers', newPlayerCount);
-    console.log(newPlayerCount);
-
-    const pTag = document.querySelector('.readyPlayerText');
-    pTag.innerHTML = newPlayerCount + ' av 4 spelare redo'; 
+function countPlayers(readyPlayersQuantity) {
+    
 };
 

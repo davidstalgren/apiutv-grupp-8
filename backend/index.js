@@ -38,8 +38,6 @@ const gridLayout = [
     [0,0,0,0,0, 0,0,0,0,0, 0,0,0,0,0],        
 ];
 
-let readyPlayersQuantity = 0;
-
 const playerTabel = [{userName:'', userColor:1}, {userName:'', userColor:2}, {userName:'', userColor:3}, {userName:'', userColor:4}]
 
 io.on('connection', (socket) => {
@@ -68,9 +66,6 @@ io.on('connection', (socket) => {
     });
 
     socket.on('readyPlayers', (playerCount) => {
-        readyPlayersQuantity = playerCount;
-        console.log('Player ready', playerCount);
-        console.log('Server Player ready', readyPlayersQuantity);
 
         io.emit('readyPlayers', readyPlayersQuantity);
     });
