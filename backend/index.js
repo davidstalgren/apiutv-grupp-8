@@ -35,7 +35,9 @@ const gridLayout = [
     [0,0,0,0,0, 0,0,0,0,0, 0,0,0,0,0],        
     [0,0,0,0,0, 0,0,0,0,0, 0,0,0,0,0],        
     [0,0,0,0,0, 0,0,0,0,0, 0,0,0,0,0],        
-]
+];
+
+let readyPlayersQuantity = 0;
 
 io.on('connection', (socket) => {
     socket.on('chat', (msg) => {
@@ -54,10 +56,11 @@ io.on('connection', (socket) => {
         io.emit('drawing', gridLayout)
     });
 
-    socket.on('readyPlayers', (player) => {
-        console.log('Player ready', player);
-        io.emit('Player ready', player);
+    socket.on('readyPlayers', (playerCount) => {
+        io.emit('readyPlayers', playerCount);
+
+        console.log('Player ready', playerCount);
     });
 });
 
-server.listen(3000)
+server.listen(3000);

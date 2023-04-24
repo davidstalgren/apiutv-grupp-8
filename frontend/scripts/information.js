@@ -3,7 +3,8 @@ import { startPicturePreview} from "./gameplay";
 const socket = io('http://localhost:3000');
 
 const app = document.querySelector('#app');
-let readyPlayers = 0;
+
+let starterPlayerCount = 0;
 
 export function renderStartInformation() {
     const infoContainer = document.createElement('article');
@@ -33,23 +34,41 @@ export function renderStartInformation() {
     ruleContainer.className = 'ruleContainer';
     startBtn.className = 'startBtn';
     divider.className = 'divider';
+    playersReady.className = 'readyPlayerText';
 
     heading.innerHTML = 'Information';
     startBtn.innerHTML = 'Starta';
-    playersReady.innerHTML = readyPlayers + ' av 4 Spelare redo';
+    playersReady.innerHTML = starterPlayerCount + ' av 4 spelare redo';
 
     ruleContainer.append(heading, information, divider, playersReady);
     infoContainer.append(startBtn, ruleContainer);
     app.appendChild(infoContainer);
 
-    startBtn.addEventListener('click', () => {
-        socket.emit('readyPlayers', readyPlayers++);
+    /*startBtn.addEventListener('click', () => {
+        readyPlayers++;
+        const playerCount = readyPlayers;
+
+        socket.emit('readyPlayers', playerCount);
         playersReady.innerHTML = readyPlayers + ' av 4 Spelare redo';
 
         if(readyPlayers === 4) {
             console.log('Start Game!');
             startPicturePreview();
         };
+    });*/
+
+    startBtn.addEventListener('click', () => {
+        starterPlayerCount++;
+        countPlayers(starterPlayerCount);
     });
+};
+
+function countPlayers(newPlayerCount) {
+    console.log(newPlayerCount);
+
+    const pTag = document.querySelector('.readyPlayerText');
+    pTag.innerHTML = newPlayerCount + ' av 4 spelare redo';
+
+    socket.emit('readyPlayers', newPlayerCount);
 };
 
