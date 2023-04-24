@@ -4,6 +4,7 @@ import { renderAddUsers } from './addUsers';
 import { renderUserChat } from './userChat';
 import { renderStartInformation } from './information';
 import { gridDrawing, renderGridContainer } from './gridDrawing';
+import { drawPlayers } from './addUsers';
 const socket = io('http://localhost:3000');
 
 function init() {
@@ -30,5 +31,10 @@ socket.on('drawing', (gridlayout) => {
 
 });
 
+socket.on('players', playerTabel => {
+  if (localStorage.getItem('userData') != undefined) {
+    drawPlayers(playerTabel);
+  }
+});
 
 init();
