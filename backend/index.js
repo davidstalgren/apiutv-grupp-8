@@ -11,14 +11,13 @@ app.get('/', (req, res) => {
     res.send('fungerar servern?');
 });
 
-
-
 const io = require('socket.io')(server, {
     cors: {
         origin: 'http://localhost:5173',
         methods: ['GET', 'POST']
     }
 });
+
 const gridLayout = [
     [0,0,0,0,0, 0,0,0,0,0, 0,0,0,0,0],        
     [0,0,0,0,0, 0,0,0,0,0, 0,0,0,0,0],        
@@ -67,9 +66,11 @@ io.on('connection', (socket) => {
     });
 
     socket.on('readyPlayers', (playerCount) => {
-        io.emit('readyPlayers', playerCount);
-
+        readyPlayersQuantity = playerCount;
         console.log('Player ready', playerCount);
+        console.log('Server Player ready', readyPlayersQuantity);
+
+        io.emit('readyPlayers', readyPlayersQuantity);
     });
 });
 

@@ -64,11 +64,10 @@ export function renderStartInformation() {
 };
 
 function countPlayers(newPlayerCount) {
+    socket.emit('readyPlayers', newPlayerCount);
     console.log(newPlayerCount);
 
     const pTag = document.querySelector('.readyPlayerText');
-    pTag.innerHTML = newPlayerCount + ' av 4 spelare redo';
-
-    socket.emit('readyPlayers', newPlayerCount);
+    pTag.innerHTML = newPlayerCount + ' av 4 spelare redo'; 
 };
 
