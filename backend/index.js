@@ -4,8 +4,10 @@ const cors = require('cors');
 app.use(require('express').json());
 app.use(cors());
 
-var userRouter = require('./routes/users')
+var userRouter = require('./routes/users');
+var adminRouter = require('./routes/admin.js');
 app.use('/users', userRouter);
+app.use('/admin', adminRouter);
 
 app.get('/', (req, res) => {
     res.send('fungerar servern?');
@@ -37,9 +39,19 @@ const gridLayout = [
     [0,0,0,0,0, 0,0,0,0,0, 0,0,0,0,0],        
 ]
 
+const playerTabel = [{userName:'', userColor:1}, {userName:'', userColor:2}, {userName:'', userColor:3}, {userName:'', userColor:4}]
+
 io.on('connection', (socket) => {
+    socket.on('login', (name) => {
+        for (let i = 0; i < playerTabel.length; i++)
+        if (playerTabel[i].userName == ''){
+            playerTabel[i].userName = name;
+            break
+        }
+        io.emit('players', playerTabel)
+    })
+
     socket.on('chat', (msg) => {
-        console.log('msg', msg);
         io.emit('chat', msg)
     })
 
