@@ -37,7 +37,7 @@ const gridLayout = [
     [0,0,0,0,0, 0,0,0,0,0, 0,0,0,0,0],        
 ]
 
-let playerTabel = [{userName:'', userColor:1}, {userName:'', userColor:2}, {userName:'', userColor:3}, {userName:'', userColor:4}]
+const playerTabel = [{userName:'', userColor:1}, {userName:'', userColor:2}, {userName:'', userColor:3}, {userName:'', userColor:4}]
 
 io.on('connection', (socket) => {
     socket.on('login', (name) => {

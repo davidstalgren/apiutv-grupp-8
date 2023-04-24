@@ -51,23 +51,17 @@ export function drawPlayers(playerTabel) {
     userContainer.innerHTML = '';
     playerTabel.map(user => {
         
-        let showName = document.createElement('p');
+        const showName = document.createElement('p');
         showName.innerHTML = user.userName;
         showName.className = ('showColorDivName');
         userContainer.appendChild(showName);
-        let showColor = document.createElement('div');
+        const showColor = document.createElement('div');
         showColor.className = ('showColorDiv');
         userContainer.appendChild(showColor);
 
-        if (user.userColor == 1) {
-            showColor.style.backgroundColor = '#DC2121';
-        } else if (user.userColor == 2) {
-            showColor.style.backgroundColor = '#FFDF36';
-        } else if (user.userColor == 3) {
-            showColor.style.backgroundColor = '#3648EC';
-        } else if (user.userColor == 4){
-            showColor.style.backgroundColor = '#43B241'; 
-        }
+        const colors = ['#DC2121', '#FFDF36', '#3648EC', '#43B241']
+        showColor.style.backgroundColor = colors[user.userColor -1];
+
     })
 }
 
