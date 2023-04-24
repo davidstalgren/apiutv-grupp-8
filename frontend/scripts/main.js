@@ -1,7 +1,9 @@
 import '../style/style.css';
 import { io } from 'socket.io-client';
-import { renderAddUsers } from './addUsers';
-import { renderUserChat } from './userChat';
+
+import { renderAddUsers } from './addUsers'; 
+import { renderUserChat, renderUserMessages } from './userChat';
+
 import { renderStartInformation } from './information';
 import { gridDrawing, renderGridContainer } from './gridDrawing';
 import { drawPlayers } from './addUsers';
@@ -19,12 +21,9 @@ function init() {
   renderFinishBtn();
 };
 
-socket.on('chat', (msg) => {
-  console.log('msg', msg);
-
-  let chatMessageContainer = document.querySelector('.chatMessageContainer');
-  chatMessageContainer.innerHTML += msg;
-
+socket.on('chat', (user) => {
+  console.log('msg', user);
+  renderUserMessages(user);
 });
 
 socket.on('drawing', (gridlayout) => {
