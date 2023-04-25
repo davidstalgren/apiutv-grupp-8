@@ -46,11 +46,15 @@ const playersWhoAreDone = [];
 
 io.on('connection', (socket) => {
     socket.on('login', (name) => {
-        for (let i = 0; i < playerTabel.length; i++)
-            if (playerTabel[i].userName == '') {
+        for (let i = 0; i < playerTabel.length; i++) {
+            if (playerTabel[i].userName == name) {          //Om namnet är inloggat så blir det break och användaren syns i färgfältet, om ej denna kod är med skrivs den inloggade anv in på nytt. 
+                break 
+            }
+            if (playerTabel[i].userName == '') {            //Om användaren inte finns så får den en plats i ledigt fält.
                 playerTabel[i].userName = name;
                 break
             }
+        }
         io.emit('players', playerTabel)
     })
 

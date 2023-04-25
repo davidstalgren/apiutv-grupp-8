@@ -1,6 +1,6 @@
 import { initAdminMode } from "./admin";
 
-const app = document.querySelector('#app');
+const login = document.querySelector('#login');
 const div = document.createElement('div');
 import { io } from 'socket.io-client';
 const socket = io('http://localhost:3000');
@@ -27,10 +27,14 @@ export function renderAddUsers() {
 
         const userName = inputElement.value;
 
+        const userData = JSON.parse(localStorage.getItem("userData")) || {}
+
+
         if (inputElement.value === 'admin') {
 
             console.log('admin wanna play');
             initAdminMode();
+            return;
 
         } else {
 
@@ -39,24 +43,31 @@ export function renderAddUsers() {
                 headers: {
                     "Content-Type": "application/json",
                 },
-                body: JSON.stringify({ newName: inputElement.value })
+
+                body: JSON.stringify({newName:inputElement.value, userName:userData.userName, userId:userData.userId})
             })
-                .then(res => res.json())
-                .then(data => {
-                    localStorage.setItem("userData", JSON.stringify({ userName: data.userName, userId: data.userId }))  //spara användaren i mappen userData i localstorage med userName och userId.
-                    socket.emit('login', userName)
-                })
-                .catch((err) => {
-                    console.log(err)
-                    const userContainer = document.querySelector('.userContainer');
-                    const inlogErrorMessege = document.createElement('p')
-                    inlogErrorMessege.innerHTML = ('Error! User already exist. Try a new one! :)');
-                    inlogErrorMessege.style.color = 'red';
+            .then(res => res.json())
+            .then(data => {
+                localStorage.setItem("userData", JSON.stringify({userName:data.userName, userId:data.userId}))  //spara användaren i mappen userData i localstorage med userName och userId.
+                socket.emit('login', userName)
+            })
+            .catch ((err) => {
+                console.log(err)
+                const userContainer = document.querySelector('.userContainer');
+                let inlogErrorMessege = document.getElementById('inlogErrorMessege');
+                if (inlogErrorMessege == null) {
+                    inlogErrorMessege = document.createElement('p')
+                    inlogErrorMessege.id = 'inlogErrorMessege';
                     userContainer.appendChild(inlogErrorMessege);
-                });
+                }
+                inlogErrorMessege.innerHTML = ('Något gick fel! Användarnamnet är upptaget. Prova med ett annat! :)');
+                inlogErrorMessege.style.color = 'red';
+                
+            });
+
         }
     });
-    app.appendChild(div);
+    login.appendChild(div);
 }
 
 export function drawPlayers(playerTabel) {
