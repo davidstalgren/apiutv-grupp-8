@@ -19,11 +19,11 @@ export function renderAddUsers() {
     btn.className = 'loginParts';
     inputElement.placeholder = 'Skriv in namn';
     btn.innerHTML = 'Lägg Till';
-    
 
-    div.append(label,inputElement, btn);
-    
-btn.addEventListener('click', () => {
+
+    div.append(label, inputElement, btn);
+
+    btn.addEventListener('click', () => {
 
         const userName = inputElement.value;
 
@@ -31,40 +31,40 @@ btn.addEventListener('click', () => {
 
             console.log('admin wanna play');
             initAdminMode();
-            
+
         } else {
-            
+
             fetch("http://localhost:3000/users/", {
                 method: "POST",
                 headers: {
-                    "Content-Type": "application/json",      
+                    "Content-Type": "application/json",
                 },
-                body: JSON.stringify({newName:inputElement.value})
+                body: JSON.stringify({ newName: inputElement.value })
             })
-            .then(res => res.json())
-            .then(data => {
-                localStorage.setItem("userData", JSON.stringify({userName:data.userName, userId:data.userId}))  //spara användaren i mappen userData i localstorage med userName och userId.
-                socket.emit('login', userName)
-            })
-            .catch ((err) => {
-                console.log(err)
-                const userContainer = document.querySelector('.userContainer');
-                const inlogErrorMessege = document.createElement('p')
-                inlogErrorMessege.innerHTML = ('Error! User already exist. Try a new one! :)');
-                inlogErrorMessege.style.color = 'red';
-                userContainer.appendChild(inlogErrorMessege);
-            });
+                .then(res => res.json())
+                .then(data => {
+                    localStorage.setItem("userData", JSON.stringify({ userName: data.userName, userId: data.userId }))  //spara användaren i mappen userData i localstorage med userName och userId.
+                    socket.emit('login', userName)
+                })
+                .catch((err) => {
+                    console.log(err)
+                    const userContainer = document.querySelector('.userContainer');
+                    const inlogErrorMessege = document.createElement('p')
+                    inlogErrorMessege.innerHTML = ('Error! User already exist. Try a new one! :)');
+                    inlogErrorMessege.style.color = 'red';
+                    userContainer.appendChild(inlogErrorMessege);
+                });
         }
     });
     app.appendChild(div);
 }
 
 export function drawPlayers(playerTabel) {
-    localStorage.setItem("playerTabel", JSON.stringify({playerTabel:playerTabel}))    // spara spelarrayn i localstorage
+    localStorage.setItem("playerTabel", JSON.stringify({ playerTabel: playerTabel }))    // spara spelarrayn i localstorage
     const userContainer = document.querySelector('.userContainer');
     userContainer.innerHTML = '';
     playerTabel.map(user => {
-        
+
         const showName = document.createElement('p');
         showName.innerHTML = user.userName;
         showName.className = ('showColorDivName');
@@ -74,7 +74,7 @@ export function drawPlayers(playerTabel) {
         userContainer.appendChild(showColor);
 
         const colors = ['#DC2121', '#FFDF36', '#3648EC', '#43B241']
-        showColor.style.backgroundColor = colors[user.userColor -1];
+        showColor.style.backgroundColor = colors[user.userColor - 1];
 
     })
 }

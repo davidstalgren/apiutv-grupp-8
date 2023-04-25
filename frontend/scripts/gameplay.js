@@ -1,5 +1,5 @@
 import { renderAddUsers } from "./addUsers";
-import { renderGridContainer } from "./gridDrawing";
+import { gridDrawing, renderGridContainer, starterGrid } from "./gridDrawing";
 import { renderUserChat } from "./userChat";
 import { io } from 'socket.io-client';
 const socket = io('http://localhost:3000');
@@ -18,6 +18,18 @@ export function startPicturePreview() {
     printPreviewCountdown();
     renderGridContainer();
 };
+
+socket.on('startGame', (getAnswerGrid) => {
+    console.log(getAnswerGrid);
+    const toBeDrawn = Object.values(getAnswerGrid);
+    console.log(toBeDrawn + typeof(toBeDrawn))
+   
+    gridDrawing(toBeDrawn);
+    startPicturePreview()
+    setTimeout(() => {
+        gridDrawing(starterGrid);
+    }, 5000)
+})
 
 function printPreviewCountdown() {
     const heading = document.createElement('h3');

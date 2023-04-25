@@ -5,7 +5,7 @@ const app = document.querySelector('#app');
 
 const userColor = 1;
 
-const starterGrid = [
+export const starterGrid = [
     [0,0,0,0,0, 0,0,0,0,0, 0,0,0,0,0],        
     [0,0,0,0,0, 0,0,0,0,0, 0,0,0,0,0],        
     [0,0,0,0,0, 0,0,0,0,0, 0,0,0,0,0],        

@@ -4,7 +4,7 @@ const connection = require('../conn');
 const mysql = require('mysql2');
 
 router.post('/', (req, res) => {
-  let newDrawing = req.body;
+  const newDrawing = JSON.stringify(req.body);
   console.log('newDrawing', newDrawing);
 
   connection.connect((err) => {
@@ -14,11 +14,11 @@ router.post('/', (req, res) => {
 
       let sql = `INSERT INTO presetpaintings 
         (gridLayout) 
-        VALUES ('?')`;
+        VALUES (?)`;
       
-      let values = newDrawing;
+      console.log(newDrawing);
 
-      connection.query(sql, values, (err, data) => {
+      connection.query(sql, [newDrawing], (err, data) => {
         if (err) {
           console.log(err);
         } else {
