@@ -13,14 +13,13 @@ app.get('/', (req, res) => {
     res.send('fungerar servern?');
 });
 
-
-
 const io = require('socket.io')(server, {
     cors: {
         origin: 'http://localhost:5173',
         methods: ['GET', 'POST']
     }
 });
+
 const gridLayout = [
     [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
     [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
@@ -37,9 +36,12 @@ const gridLayout = [
     [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
     [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
     [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-]
+];
+
+let victoryGoal = [];
 
 const playerTabel = [{ userName: '', userColor: 1 }, { userName: '', userColor: 2 }, { userName: '', userColor: 3 }, { userName: '', userColor: 4 }]
+let readyPlayers = ['PlayerOne', 'PlayerTwo', 'Playerthree'];
 const playersWhoAreDone = [];
 
 io.on('connection', (socket) => {
@@ -58,7 +60,7 @@ io.on('connection', (socket) => {
 
     socket.on('chat', (msg) => {
         io.emit('chat', msg)
-    })
+    });
 
     socket.on('drawing', (recivedData) => {
 
@@ -69,8 +71,24 @@ io.on('connection', (socket) => {
         }
         gridLayout[recivedData.i][recivedData.j] = recivedData.userColor;
         io.emit('drawing', gridLayout)
-    })
-    
+    });
+
+    socket.on('countReadyPlayers', async (playerName) => {
+        readyPlayers.push(playerName);
+        if (readyPlayers.length === 4) {
+            try {
+                console.log('Game has started')
+                io.emit('startGame', victoryGoal);
+                readyPlayers = [];
+            } catch (err) {
+                console.log(err)
+            }
+            console.log(victoryGoal);
+            return;
+        }
+        io.emit('countReadyPlayers', readyPlayers);
+    });
+
     socket.on('finishGame', (playerName) => {
         if (playersWhoAreDone.contains(playerName)) {
             playersWhoAreDone.pop(playerName);
@@ -116,4 +134,26 @@ function resetActiveGrid() {
     }
 }
 
+function setAnswerGrid() {
+    const randomNr = 5;
+    const sql = `SELECT * FROM presetpaintings WHERE id = '${randomNr}'`;
+
+    connection.query(sql, (err, data) => {
+        if (err) {
+            console.log('Error: ' + err)
+            reject(err)
+        }
+        data.map(grid => {
+            const stringGrid = Buffer.from(grid.gridLayout).toString();
+            const jsGrid = JSON.parse(stringGrid);
+            
+            console.log(jsGrid + typeof(jsGrid));
+            victoryGoal = jsGrid;
+        })
+        
+        console.log('Victory goal: ' + victoryGoal)
+    })
+}
+
+setAnswerGrid();
 server.listen(3000);

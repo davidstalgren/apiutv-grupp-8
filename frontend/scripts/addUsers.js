@@ -7,6 +7,8 @@ const socket = io('http://localhost:3000');
 div.className = 'userContainer';
 
 export function renderAddUsers() {
+    div.innerHTML = '';
+
     const label = document.createElement('label');
     const inputElement = document.createElement('input');
     const btn = document.createElement('button');
@@ -17,11 +19,11 @@ export function renderAddUsers() {
     btn.className = 'loginParts';
     inputElement.placeholder = 'Skriv in namn';
     btn.innerHTML = 'Lägg Till';
-    
 
-    div.append(label,inputElement, btn);
-    
-btn.addEventListener('click', () => {
+
+    div.append(label, inputElement, btn);
+
+    btn.addEventListener('click', () => {
 
         const userName = inputElement.value;
 
@@ -33,14 +35,15 @@ btn.addEventListener('click', () => {
             console.log('admin wanna play');
             initAdminMode();
             return;
-            
+
         } else {
-            
+
             fetch("http://localhost:3000/users/", {
                 method: "POST",
                 headers: {
-                    "Content-Type": "application/json",      
+                    "Content-Type": "application/json",
                 },
+
                 body: JSON.stringify({newName:inputElement.value, userName:userData.userName, userId:userData.userId})
             })
             .then(res => res.json())
@@ -61,17 +64,18 @@ btn.addEventListener('click', () => {
                 inlogErrorMessege.style.color = 'red';
                 
             });
+
         }
     });
     login.appendChild(div);
 }
 
 export function drawPlayers(playerTabel) {
-    localStorage.setItem("playerTabel", JSON.stringify({playerTabel:playerTabel}))    // spara spelarrayn i localstorage
+    localStorage.setItem("playerTabel", JSON.stringify({ playerTabel: playerTabel }))    // spara spelarrayn i localstorage
     const userContainer = document.querySelector('.userContainer');
     userContainer.innerHTML = '';
     playerTabel.map(user => {
-        
+
         const showName = document.createElement('p');
         showName.innerHTML = user.userName;
         showName.className = ('showColorDivName');
@@ -81,7 +85,7 @@ export function drawPlayers(playerTabel) {
         userContainer.appendChild(showColor);
 
         const colors = ['#DC2121', '#FFDF36', '#3648EC', '#43B241']
-        showColor.style.backgroundColor = colors[user.userColor -1];
+        showColor.style.backgroundColor = colors[user.userColor - 1];
 
     })
 }
