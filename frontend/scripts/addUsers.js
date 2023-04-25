@@ -1,6 +1,6 @@
 import { initAdminMode } from "./admin";
 
-const app = document.querySelector('#app');
+const login = document.querySelector('#login');
 const div = document.createElement('div');
 import { io } from 'socket.io-client';
 const socket = io('http://localhost:3000');
@@ -63,7 +63,7 @@ btn.addEventListener('click', () => {
             });
         }
     });
-    app.appendChild(div);
+    login.appendChild(div);
 }
 
 export function drawPlayers(playerTabel) {
