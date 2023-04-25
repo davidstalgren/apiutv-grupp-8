@@ -4,7 +4,7 @@ const cors = require('cors');
 app.use(require('express').json());
 app.use(cors());
 
-var userRouter = require('./routes/users');
+var userRouter = require('./routes/users.js');
 var adminRouter = require('./routes/admin.js');
 app.use('/users', userRouter);
 app.use('/admin', adminRouter);
