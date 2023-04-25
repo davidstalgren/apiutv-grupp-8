@@ -12,7 +12,7 @@ router.post('/', (req, res) => {
         res.sendStatus(500);
         return
     }
-    let sql = `SELECT userName FROM users WHERE userName = ${mysql.escape(newName)}`         
+    let sql = `SELECT userName, userId FROM users WHERE userName = ${mysql.escape(newName)}`         
     connection.query(sql, function(err, result) {
       if (err) {
         console.log(err)
@@ -22,6 +22,11 @@ router.post('/', (req, res) => {
       if (result.length == 0) {
         saveUser(req, res);
       } else {
+        console.log(result)
+        if (result[0].userId == req.body.userId) {
+          res.json({userName:result[0].userName, userId:result[0].userId});
+          return
+        }
         res.sendStatus(404)
       }
     })
