@@ -1,6 +1,8 @@
 import { renderAddUsers } from "./addUsers";
 import { renderGridContainer } from "./gridDrawing";
 import { renderUserChat } from "./userChat";
+import { io } from 'socket.io-client';
+const socket = io('http://localhost:3000');
 
 const app = document.querySelector('#app');
 const container = document.createElement('div');
@@ -102,4 +104,15 @@ function printGameCountdown() {
         };
         
     });
+}
+
+export function renderFinishBtn() {
+    const finishBtn = document.createElement('button');
+    finishBtn.innerHTML = 'Klara';
+    finishBtn.addEventListener('click', finishGame);
+    app.appendChild(finishBtn); // test
+}
+export function finishGame() {
+    const userData = localStorage.getItem('userData');
+    socket.emit('finishGame', userData.userName);
 }
