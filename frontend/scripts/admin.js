@@ -1,9 +1,5 @@
 const app = document.querySelector('#app');
 
-
-
-
-
 let userColor = 0;
 
 export function initAdminMode() {
@@ -181,11 +177,12 @@ function renderSaveAndLoadBtns() {
     loadBtn.classList.add('admin__loadBtn');
     const inputForDrawing = document.createElement('input');
     inputForDrawing.placeholder = 'ID att ladda in';
+    inputForDrawing.classList.add('admin_loadInput')
     
     adminSectionEl.append(inputForDrawing, loadBtn);
 
     loadBtn.addEventListener('click', () => {
-        getDrawingFromDb(gridLayout)
+        getDrawingFromDb()
     })
 
 }
@@ -208,4 +205,24 @@ function postDrawingToDb(gridLayout) {
 
 function getDrawingFromDb() {
 
+    const inputLoadEl = document.querySelector('.admin_loadInput');
+
+    console.log('clicked load btn trying to load Id: ', inputLoadEl.value);
+
+    const sendData = {
+        id: inputLoadEl.value
+    };
+
+    fetch('http://localhost:3000/admin/load', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(sendData)
+    })
+    .then(res => res.json())
+    .then(data => {
+        console.log('loaded Drawing', data);
+        gridDrawing(data)
+    })
 }
