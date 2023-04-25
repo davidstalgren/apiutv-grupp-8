@@ -1,11 +1,9 @@
-
-
 @import './normalize', './chat';
 
 #app{
   display: flex;
   justify-content: space-around;
-  flex-direction: column;
+  //flex-direction: column;
 }
 
 
@@ -37,9 +35,88 @@ h1 {
   height: 250px;
 }
 
+/*-------------------------------------------------------------------------------------------------------------
+--------------------- RULE, COUNTDOWN & GAMEPLAY CONTAINER ----------------------------------------------------
+-------------------------------------------------------------------------------------------------------------*/
+
 .infoContainer {
-  background-color: #e8e8e8;
-  padding: 5em;
+  display: flex;
+  flex-direction: column;
+  font-family: 'Inter', sans-serif;
+  background-color: #d3d3d3;
+  padding: 2em;
+
+  button.startBtn {
+    background-color: #efefef;
+    text-transform: uppercase;
+    border-radius: 4px;
+    border: none;
+    padding: 0.8em 3em;
+    margin-bottom: 1em;
+    cursor: pointer;
+  }
+
+  .ruleContainer {
+    background-color: #dfdede;
+    width: 20em;
+    padding: 1em;
+
+    h2, p {
+      text-align: center;
+    }
+
+    ul {
+      margin: 0;
+
+      li {
+        list-style-type: none;
+        line-height: 20px;
+        margin-top: 0.5em;
+        margin-bottom: 0.5em;
+      }
+    }
+  }
+}
+
+.countdownContainer {
+  display: flex;
+  flex-direction: column;
+  background-color: #d3d3d3;
+  font-family: 'Inter', sans-serif;
+  min-height: 23em;
+  padding: 2em;
+
+  .innerContainer {
+    background-color: #dfdede;
+    min-height: 20em;
+    padding: 1em;
+
+    h2 {
+      font-weight: 400;
+      font-size: 1.3rem;
+      text-transform: uppercase;
+      text-align: center;
+
+    }
+
+    progress {
+      padding: 0.8em;
+    }
+  
+    p {
+      text-align: center;
+    }
+  
+    button.finishBtn {
+      background-color: #efefef;
+      text-transform: uppercase;
+      border-radius: 4px;
+      border: none;
+      padding: 0.5em 3em;
+      margin-bottom: 1em;
+      cursor: pointer;
+    }
+  }
 }
 
 .footer{
@@ -121,6 +198,11 @@ h1 {
   .pixel {
     width: 20px;
     height: 20px;
+
+    &:hover {
+      border: 2px solid #222222;
+      cursor: pointer;
+    }
   }
 }
 

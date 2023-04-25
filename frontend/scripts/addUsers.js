@@ -7,6 +7,8 @@ const socket = io('http://localhost:3000');
 div.className = 'userContainer';
 
 export function renderAddUsers() {
+    div.innerHTML = '';
+
     const label = document.createElement('label');
     const inputElement = document.createElement('input');
     const btn = document.createElement('button');
