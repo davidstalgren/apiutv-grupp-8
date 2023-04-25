@@ -35,6 +35,10 @@ h1 {
   height: 250px;
 }
 
+/*-------------------------------------------------------------------------------------------------------------
+--------------------- RULE, COUNTDOWN & GAMEPLAY CONTAINER ----------------------------------------------------
+-------------------------------------------------------------------------------------------------------------*/
+
 .infoContainer {
   display: flex;
   flex-direction: column;
@@ -71,12 +75,6 @@ h1 {
         margin-bottom: 0.5em;
       }
     }
-
-    div.divider {
-      border-top: 2px solid #222222;
-      width: 80%;
-      margin: 1.5em;
-    }
   }
 }
 
@@ -92,24 +90,32 @@ h1 {
     background-color: #dfdede;
     min-height: 20em;
     padding: 1em;
-  }
 
-  progress {
-    padding: 0.8em;
-  }
+    h2 {
+      font-weight: 400;
+      font-size: 1.3rem;
+      text-transform: uppercase;
+      text-align: center;
 
-  p {
-    text-align: center;
-  }
+    }
 
-  button.finishBtn {
-    background-color: #efefef;
-    text-transform: uppercase;
-    border-radius: 4px;
-    border: none;
-    padding: 0.5em 3em;
-    margin-bottom: 1em;
-    cursor: pointer;
+    progress {
+      padding: 0.8em;
+    }
+  
+    p {
+      text-align: center;
+    }
+  
+    button.finishBtn {
+      background-color: #efefef;
+      text-transform: uppercase;
+      border-radius: 4px;
+      border: none;
+      padding: 0.5em 3em;
+      margin-bottom: 1em;
+      cursor: pointer;
+    }
   }
 }
 

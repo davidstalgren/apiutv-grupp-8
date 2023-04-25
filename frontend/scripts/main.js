@@ -5,6 +5,7 @@ import { renderUserChat, renderUserMessages } from './userChat';
 import { renderReadyPlayers, renderStartInformation } from './information';
 import { gridDrawing, renderGridContainer } from './gridDrawing';
 import { drawPlayers } from './addUsers';
+import { startPicturePreview } from './gameplay';
 const socket = io('http://localhost:3000');
 
 function init() {
@@ -35,8 +36,13 @@ socket.on('players', playerTabel => {
 });
 
 socket.on('countReadyPlayers', (readyPlayer) => {
-  console.log('readyplayer');
+  console.log('readyplayer', readyPlayer);
   renderReadyPlayers(readyPlayer);
+
+  if(readyPlayer.length === 4) {
+    startPicturePreview();
+  };
+
 });
 
 init();

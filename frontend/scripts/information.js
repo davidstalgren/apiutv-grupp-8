@@ -1,5 +1,4 @@
 import { io } from 'socket.io-client';
-import { startPicturePreview} from "./gameplay";
 const socket = io('http://localhost:3000');
 
 const app = document.querySelector('#app');
@@ -55,9 +54,10 @@ export function renderReadyPlayers(playerName) {
     const playerContainer = document.querySelector('.playerContainer');
     const playersReady = document.createElement('p');
 
+    playersReady.className = 'playersReady';
     playerContainer.innerHTML = '';
 
     playersReady.innerHTML = playerName + ' är redo';
     playerContainer.appendChild(playersReady);
-}
+};
 
