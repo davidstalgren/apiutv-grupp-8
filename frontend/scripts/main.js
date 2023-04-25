@@ -1,11 +1,11 @@
 import '../style/style.css';
 import { io } from 'socket.io-client';
-import { renderAddUsers } from './addUsers'; 
+
+import { renderAddUsers, drawPlayers  } from './addUsers'; 
 import { renderUserChat, renderUserMessages } from './userChat';
 import { renderReadyPlayers, renderStartInformation } from './information';
 import { gridDrawing, renderGridContainer } from './gridDrawing';
-import { drawPlayers } from './addUsers';
-import { startPicturePreview } from './gameplay';
+import { startPicturePreview, renderFinishBtn } from './gameplay';
 const socket = io('http://localhost:3000');
 
 function init() {
@@ -16,6 +16,7 @@ function init() {
   renderUserChat();
   renderStartInformation();
   renderGridContainer();
+  renderFinishBtn();
 };
 
 socket.on('chat', (user) => {
@@ -24,7 +25,7 @@ socket.on('chat', (user) => {
 });
 
 socket.on('drawing', (gridlayout) => {
-  
+
   gridDrawing(gridlayout)
 
 });
@@ -43,6 +44,11 @@ socket.on('countReadyPlayers', (readyPlayer) => {
     startPicturePreview();
   };
 
+});
+
+socket.on('gameIsOver', correctResultInProcent => {
+   console.log('correctResultInProcent', correctResultInProcent);
+   // TODO: Rendera ut resultatet
 });
 
 init();
