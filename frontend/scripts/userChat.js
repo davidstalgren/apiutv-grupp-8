@@ -21,45 +21,22 @@ export function renderUserChat() {
 
   sendChatBtn.addEventListener('click', () => {
     const chatMessage = chatInput.value;
+    const userData = JSON.parse(localStorage.getItem('userData'));
+    const playerTabel = JSON.parse(localStorage.getItem('playerTabel'));
+    const playerTabelArray = playerTabel.playerTabel;
+    const foundUser = playerTabelArray.find(user => user.userName === userData.userName);
 
-    //userInfo är hårdkodad här för att testa, ska ändras!
     let userInfo = {
-      message: "message 1",
-      name: "Name1", // user.name
-      color: 1, // user.color
-      currentUser: true
+      message: chatMessage,
+      name: userData.userName,
+      color: foundUser.userColor,
+      id: userData.userId 
     }
 
-    let userInfo2 = {
-      message: "message 2",
-      name: "Name2", // user.name
-      color: 2, // user.color
-      currentUser: false
+    if (chatMessage) {
+      socket.emit('chat', userInfo);
+      chatInput.value = '';
     }
-
-    let userInfo3 = {
-      message: "message 3",
-      name: "Name3", // user.name
-      color: 3, // user.color
-      currentUser: false
-    }
-
-    let userInfo4 = {
-      message: "message 4",
-      name: "Name4", // user.name
-      color: 4, // user.color
-      currentUser: false
-    }
-
-    socket.emit('chat', userInfo);
-    socket.emit('chat', userInfo2);
-    socket.emit('chat', userInfo3);
-    socket.emit('chat', userInfo4);
-
-    // if (chatMessage) {
-    //   socket.emit('chat', userInfo);
-    //   chatInput.value = '';
-    // }
   });
 
   chatContainer.append(chatHeading, chatMessageContainer, chatInput, sendChatBtn);
@@ -67,15 +44,15 @@ export function renderUserChat() {
 };
 
 export function renderUserMessages(user) {
-  let chatMessageContainer = document.querySelector('.chatMessageContainer');
-  const colors = ['chatUserRed', 'chatUserBlue', 'chatUserGreen', 'chatUserYellow']; //klassnamn i css
-
+  const chatMessageContainer = document.querySelector('.chatMessageContainer');
+  const colors = ['chatUserRed', 'chatUserYellow', 'chatUserBlue', 'chatUserGreen']; //klassnamn i css
+  const userData = JSON.parse(localStorage.getItem('userData'));
   const messageElement = document.createElement('p');
   messageElement.innerHTML = `${user.name}: ${user.message}`;
 
   chatMessageContainer.append(messageElement);
 
-  if (user.currentUser) {
+  if (user.name === userData.userName) {
     messageElement.classList = 'chatUserMe';
     messageElement.classList.add(colors[user.color-1]);
   }
