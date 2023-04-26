@@ -77,8 +77,7 @@ io.on('connection', (socket) => {
         readyPlayers.push(playerName);
         if (readyPlayers.length === 4) {
             try {
-                console.log('Game has started')
-                io.emit('startGame', victoryGoal);
+                setAnswerGrid();
                 readyPlayers = [];
             } catch (err) {
                 console.log(err)
@@ -109,7 +108,15 @@ io.on('connection', (socket) => {
 
 function compareWithResult(playerGrid, resultGrid) {
 
-    const fullScore = 225;
+    let fullPossibleScore = 0;
+    for (let i = 0; i < resultGrid.length; i++) {
+        for (let j = 0; j < resultGrid[i].length; j++) {
+            if (resultGrid[i][j] !== 0) {
+                fullPossibleScore++;
+            }
+        }
+    }
+
     let playerScore = 0;
     for (let i = 0; i < playerGrid.length; i++) {
         for (let j = 0; j < playerGrid[i].length; j++) {
@@ -122,7 +129,7 @@ function compareWithResult(playerGrid, resultGrid) {
         }
     }
 
-    let result = (playerScore / fullScore) * 100;
+    let result = (playerScore / fullPossibleScore) * 100;
     return Math.round(result);
 }
 
@@ -135,7 +142,7 @@ function resetActiveGrid() {
 }
 
 function setAnswerGrid() {
-    const randomNr = 5;
+    const randomNr = Math.floor(Math.random() * 5) + 1;
     const sql = `SELECT * FROM presetpaintings WHERE id = '${randomNr}'`;
 
     connection.query(sql, (err, data) => {
@@ -145,15 +152,12 @@ function setAnswerGrid() {
         }
         data.map(grid => {
             const stringGrid = Buffer.from(grid.gridLayout).toString();
-            const jsGrid = JSON.parse(stringGrid);
-            
-            console.log(jsGrid + typeof(jsGrid));
+            const jsGrid = JSON.parse(stringGrid);  
             victoryGoal = jsGrid;
         })
-        
-        console.log('Victory goal: ' + victoryGoal)
+        io.emit('startGame', victoryGoal)
     })
 }
 
-setAnswerGrid();
+
 server.listen(3000);

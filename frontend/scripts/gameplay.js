@@ -19,13 +19,11 @@ export function startPicturePreview() {
     renderGridContainer();
 };
 
-socket.on('startGame', (getAnswerGrid) => {
-    console.log(getAnswerGrid);
-    const toBeDrawn = Object.values(getAnswerGrid);
-    console.log(toBeDrawn + typeof(toBeDrawn))
-   
-    gridDrawing(toBeDrawn);
+socket.on('startGame', (getAnswerGrid) => {  
+    const goalGrid = getAnswerGrid;
+    console.table('goalGrid: ' + goalGrid)
     startPicturePreview()
+    gridDrawing(goalGrid);
     setTimeout(() => {
         gridDrawing(starterGrid);
     }, 5000)
