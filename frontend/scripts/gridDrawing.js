@@ -26,14 +26,12 @@ export const starterGrid = [
 export function renderGridContainer() {
     const gridContainer = document.createElement('div');
     gridContainer.className = 'gridContainer';
-
     app.append(gridContainer);
 
     gridDrawing(starterGrid);
 }
 
 export function gridDrawing(gridLayout) {
-
     const gridContainer = document.querySelector('.gridContainer');
     gridContainer.innerHTML = '';
     
@@ -71,5 +69,5 @@ export function pixelClick(i, j, userColor) {
     }
 
     socket.emit('drawing', sendData);
-    console.log(i, j, userColor);
+    console.log(i, j, 'userColor: ' + userColor);
 }
