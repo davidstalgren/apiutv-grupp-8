@@ -3,7 +3,8 @@
 #app{
   display: flex;
   justify-content: space-around;
-  //flex-direction: column;
+  color: #222222;
+  background-color: #d3d3d3;
 }
 
 /*----------------------------------------------------------------------------------------------------------
@@ -42,26 +43,36 @@ h1 {
   display: flex;
   flex-direction: column;
   font-family: 'Inter', sans-serif;
-  background-color: #d3d3d3;
+  margin: 5px;
   padding: 2em;
 
   button.startBtn {
-    background-color: #efefef;
     text-transform: uppercase;
     border-radius: 4px;
     border: none;
     padding: 0.8em 3em;
     margin-bottom: 1em;
     cursor: pointer;
+    transition: all 0.3s;
+	  position: relative;
+
+    &:hover {
+      background-color: #bcbcbc;
+    }
   }
 
   .ruleContainer {
-    background-color: #dfdede;
+    background-color: #dddbdb;
+    border-radius: 4px;
     width: 20em;
     padding: 1em;
 
     h2, p {
       text-align: center;
+    }
+
+    h2{
+      text-transform: uppercase;
     }
 
     ul {
@@ -80,40 +91,49 @@ h1 {
 .countdownContainer {
   display: flex;
   flex-direction: column;
-  background-color: #d3d3d3;
+  align-items: center;
   font-family: 'Inter', sans-serif;
   min-height: 23em;
+  width: 23em;
   padding: 2em;
 
   .innerContainer {
     background-color: #dfdede;
+    margin: 0 auto;
     min-height: 20em;
-    padding: 1em;
+    padding: 4em;
+    border-radius: 4px;
 
     h2 {
       font-weight: 400;
       font-size: 1.3rem;
       text-transform: uppercase;
       text-align: center;
-
     }
 
     progress {
       padding: 0.8em;
+      margin-top: 2em;
     }
   
     p {
       text-align: center;
+      margin-top: 1em;
     }
   
     button.finishBtn {
-      background-color: #efefef;
       text-transform: uppercase;
       border-radius: 4px;
       border: none;
       padding: 0.5em 3em;
       margin-bottom: 1em;
+      margin-left: 5px;
       cursor: pointer;
+      transition: 0.3s ease-in-out;
+
+      &:hover {
+        background-color: #bcbcbc;
+      }
     }
   }
 }
@@ -182,9 +202,6 @@ h1 {
 -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 -----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------*/
 
-
-
-
 .gridContainer {
   display: grid;
   width: 316px;
@@ -194,6 +211,7 @@ h1 {
   gap: 1px;
   border: 2px solid #222222;
   background-color: #E8E8E8;
+  margin-top: 6em;
 
   .pixel {
     width: 20px;

@@ -16,7 +16,6 @@ export function renderStartInformation() {
         'När tiden går ut avslutas spelet och ett resultat kommer presenteras',
         'Spelaren kan därefter visa tidigare målade bilder eller spela igen'
     ];
-    const startBtn = document.createElement('button');
     const playerContainer = document.createElement('div');
 
     rules.forEach(rule => {
@@ -28,18 +27,25 @@ export function renderStartInformation() {
 
     infoContainer.className = 'infoContainer';
     ruleContainer.className = 'ruleContainer';
-    startBtn.className = 'startBtn';
     playerContainer.className = 'playerContainer';
 
     heading.innerHTML = 'Information';
-    startBtn.innerHTML = 'Starta';
 
     ruleContainer.append(heading, information, playerContainer);
-    infoContainer.append(startBtn, ruleContainer);
+    infoContainer.append(ruleContainer);
     app.appendChild(infoContainer);
-
-    startBtn.addEventListener('click', countPlayers);
 };
+
+export function renderStartBtn() {
+    const startBtn = document.createElement('button');
+    const infocontainer = document.querySelector('.infoContainer');
+
+    startBtn.className = 'startBtn';
+    startBtn.innerHTML = 'Starta spelet';
+
+    infocontainer.prepend(startBtn);
+    startBtn.addEventListener('click', countPlayers);
+}
 
 function countPlayers() {
     const startBtn = document.querySelector('.startBtn');
