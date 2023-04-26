@@ -1,6 +1,6 @@
 import { initAdminMode } from "./admin";
 
-const app = document.querySelector('#app');
+const login = document.querySelector('#login');
 const div = document.createElement('div');
 import { io } from 'socket.io-client';
 const socket = io('http://localhost:3000');
@@ -19,27 +19,32 @@ export function renderAddUsers() {
     btn.className = 'loginParts';
     inputElement.placeholder = 'Skriv in namn';
     btn.innerHTML = 'Lägg Till';
-    
 
-    div.append(label,inputElement, btn);
-    
-btn.addEventListener('click', () => {
+
+    div.append(label, inputElement, btn);
+
+    btn.addEventListener('click', () => {
 
         const userName = inputElement.value;
+
+        const userData = JSON.parse(localStorage.getItem("userData")) || {}
+
 
         if (inputElement.value === 'admin') {
 
             console.log('admin wanna play');
             initAdminMode();
-            
+            return;
+
         } else {
-            
+
             fetch("http://localhost:3000/users/", {
                 method: "POST",
                 headers: {
-                    "Content-Type": "application/json",      
+                    "Content-Type": "application/json",
                 },
-                body: JSON.stringify({newName:inputElement.value})
+
+                body: JSON.stringify({newName:inputElement.value, userName:userData.userName, userId:userData.userId})
             })
             .then(res => res.json())
             .then(data => {
@@ -49,22 +54,28 @@ btn.addEventListener('click', () => {
             .catch ((err) => {
                 console.log(err)
                 const userContainer = document.querySelector('.userContainer');
-                const inlogErrorMessege = document.createElement('p')
-                inlogErrorMessege.innerHTML = ('Error! User already exist. Try a new one! :)');
+                let inlogErrorMessege = document.getElementById('inlogErrorMessege');
+                if (inlogErrorMessege == null) {
+                    inlogErrorMessege = document.createElement('p')
+                    inlogErrorMessege.id = 'inlogErrorMessege';
+                    userContainer.appendChild(inlogErrorMessege);
+                }
+                inlogErrorMessege.innerHTML = ('Något gick fel! Användarnamnet är upptaget. Prova med ett annat! :)');
                 inlogErrorMessege.style.color = 'red';
-                userContainer.appendChild(inlogErrorMessege);
+                
             });
+
         }
     });
-    app.appendChild(div);
+    login.appendChild(div);
 }
 
 export function drawPlayers(playerTabel) {
-    localStorage.setItem("playerTabel", JSON.stringify({playerTabel:playerTabel}))    // spara spelarrayn i localstorage
+    localStorage.setItem("playerTabel", JSON.stringify({ playerTabel: playerTabel }))    // spara spelarrayn i localstorage
     const userContainer = document.querySelector('.userContainer');
     userContainer.innerHTML = '';
     playerTabel.map(user => {
-        
+
         const showName = document.createElement('p');
         showName.innerHTML = user.userName;
         showName.className = ('showColorDivName');
@@ -74,7 +85,7 @@ export function drawPlayers(playerTabel) {
         userContainer.appendChild(showColor);
 
         const colors = ['#DC2121', '#FFDF36', '#3648EC', '#43B241']
-        showColor.style.backgroundColor = colors[user.userColor -1];
+        showColor.style.backgroundColor = colors[user.userColor - 1];
 
     })
 }

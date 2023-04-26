@@ -186,7 +186,7 @@ function postDrawingToDb(gridLayout) {
         headers: {
             'Content-Type': 'application/json'
         },
-        body: JSON.stringify({gridLayout})
+        body: JSON.stringify(gridLayout)
     })
     .then(res => res.json())
     .then(data => {

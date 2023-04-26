@@ -4,7 +4,7 @@ const cors = require('cors');
 app.use(require('express').json());
 app.use(cors());
 
-var userRouter = require('./routes/users');
+var userRouter = require('./routes/users.js');
 var adminRouter = require('./routes/admin.js');
 app.use('/users', userRouter);
 app.use('/admin', adminRouter);
@@ -21,34 +21,40 @@ const io = require('socket.io')(server, {
 });
 
 const gridLayout = [
-    [0,0,0,0,0, 0,0,0,0,0, 0,0,0,0,0],        
-    [0,0,0,0,0, 0,0,0,0,0, 0,0,0,0,0],        
-    [0,0,0,0,0, 0,0,0,0,0, 0,0,0,0,0],        
-    [0,0,0,0,0, 0,0,0,0,0, 0,0,0,0,0],        
-    [0,0,0,0,0, 0,0,0,0,0, 0,0,0,0,0],        
-    [0,0,0,0,0, 0,0,0,0,0, 0,0,0,0,0],        
-    [0,0,0,0,0, 0,0,0,0,0, 0,0,0,0,0],        
-    [0,0,0,0,0, 0,0,0,0,0, 0,0,0,0,0],        
-    [0,0,0,0,0, 0,0,0,0,0, 0,0,0,0,0],        
-    [0,0,0,0,0, 0,0,0,0,0, 0,0,0,0,0],        
-    [0,0,0,0,0, 0,0,0,0,0, 0,0,0,0,0],        
-    [0,0,0,0,0, 0,0,0,0,0, 0,0,0,0,0],        
-    [0,0,0,0,0, 0,0,0,0,0, 0,0,0,0,0],        
-    [0,0,0,0,0, 0,0,0,0,0, 0,0,0,0,0],        
-    [0,0,0,0,0, 0,0,0,0,0, 0,0,0,0,0],        
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
 ];
 
-const playerTabel = [{userName:'', userColor:1}, {userName:'', userColor:2}, {userName:'', userColor:3}, {userName:'', userColor:4}]
-const readyPlayers = [];
+let victoryGoal = [];
+
+const playerTabel = [{ userName: '', userColor: 1 }, { userName: '', userColor: 2 }, { userName: '', userColor: 3 }, { userName: '', userColor: 4 }]
+let readyPlayers = ['PlayerOne', 'PlayerTwo', 'Playerthree'];
 const playersWhoAreDone = [];
 
 io.on('connection', (socket) => {
     socket.on('login', (name) => {
-        for (let i = 0; i < playerTabel.length; i++)
-            if (playerTabel[i].userName == '') {
+        for (let i = 0; i < playerTabel.length; i++) {
+            if (playerTabel[i].userName == name) {          //Om namnet är inloggat så blir det break och användaren syns i färgfältet, om ej denna kod är med skrivs den inloggade anv in på nytt. 
+                break 
+            }
+            if (playerTabel[i].userName == '') {            //Om användaren inte finns så får den en plats i ledigt fält.
                 playerTabel[i].userName = name;
                 break
             }
+        }
         io.emit('players', playerTabel)
     })
 
@@ -67,12 +73,22 @@ io.on('connection', (socket) => {
         io.emit('drawing', gridLayout)
     });
 
-    socket.on('countReadyPlayers', (playerName) => {
+    socket.on('countReadyPlayers', async (playerName) => {
         readyPlayers.push(playerName);
-
+        if (readyPlayers.length === 4) {
+            try {
+                console.log('Game has started')
+                io.emit('startGame', victoryGoal);
+                readyPlayers = [];
+            } catch (err) {
+                console.log(err)
+            }
+            console.log(victoryGoal);
+            return;
+        }
         io.emit('countReadyPlayers', readyPlayers);
     });
-    
+
     socket.on('finishGame', (playerName) => {
         if (playersWhoAreDone.contains(playerName)) {
             playersWhoAreDone.pop(playerName);
@@ -117,4 +133,27 @@ function resetActiveGrid() {
         }
     }
 }
+
+function setAnswerGrid() {
+    const randomNr = 5;
+    const sql = `SELECT * FROM presetpaintings WHERE id = '${randomNr}'`;
+
+    connection.query(sql, (err, data) => {
+        if (err) {
+            console.log('Error: ' + err)
+            reject(err)
+        }
+        data.map(grid => {
+            const stringGrid = Buffer.from(grid.gridLayout).toString();
+            const jsGrid = JSON.parse(stringGrid);
+            
+            console.log(jsGrid + typeof(jsGrid));
+            victoryGoal = jsGrid;
+        })
+        
+        console.log('Victory goal: ' + victoryGoal)
+    })
+}
+
+setAnswerGrid();
 server.listen(3000);
