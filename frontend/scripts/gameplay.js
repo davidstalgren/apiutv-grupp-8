@@ -96,6 +96,7 @@ function printGameCountdown() {
         timerText.innerHTML = timer + ' sekunder kvar';
 
         timer -= 1;
+       
     }, 1000);
 
     innerContainer.append(heading, progress, timerText, button, finishedPlayers);
@@ -105,7 +106,7 @@ function printGameCountdown() {
     let playerCount = 0;
 
     button.addEventListener('click', () => {
-
+        finishGame();
         if(playerCount < 3) {
             playerCount++;
             finishedPlayers.innerHTML = playerCount + ' av 4 spelare klara';
@@ -124,5 +125,5 @@ export function renderFinishBtn() {
 }
 export function finishGame() {
     const userData = localStorage.getItem('userData');
-    socket.emit('finishGame', userData.userName);
+    socket.emit('finishGame', userData);
 }
