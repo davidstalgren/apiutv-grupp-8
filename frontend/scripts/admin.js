@@ -1,9 +1,5 @@
 const app = document.querySelector('#app');
 
-
-
-
-
 let userColor = 0;
 
 export function initAdminMode() {
@@ -11,36 +7,36 @@ export function initAdminMode() {
 
     app.innerHTML = '';
 
-    let adminSection = document.createElement('section');
+    const adminSection = document.createElement('section');
     adminSection.classList.add('admin__section');
 
     app.appendChild(adminSection);
-    let adminSectionEl = document.querySelector('.admin__section');
+    const adminSectionEl = document.querySelector('.admin__section');
 
-    let colorSelectorDiv = document.createElement('div');
+    const colorSelectorDiv = document.createElement('div');
     colorSelectorDiv.classList.add('admin__colorSelectorDiv');
 
-    let color0 = document.createElement('button');
+    const color0 = document.createElement('button');
     color0.classList.add('admin__changeColorBtn');
     color0.innerText = '#F2F2F2';
     color0.style.backgroundColor = '#F2F2F2';
 
-    let color1 = document.createElement('button');
+    const color1 = document.createElement('button');
     color1.classList.add('admin__changeColorBtn');
     color1.innerText = '#DC2121';
     color1.style.backgroundColor = '#DC2121';
 
-    let color2 = document.createElement('button');
+    const color2 = document.createElement('button');
     color2.classList.add('admin__changeColorBtn');
     color2.innerText = '#FFDF36';
     color2.style.backgroundColor = '#FFDF36';
 
-    let color3 = document.createElement('button');
+    const color3 = document.createElement('button');
     color3.classList.add('admin__changeColorBtn');
     color3.innerText = '#3648EC';
     color3.style.backgroundColor = '#3648EC';
 
-    let color4 = document.createElement('button');
+    const color4 = document.createElement('button');
     color4.classList.add('admin__changeColorBtn');
     color4.innerText = '#43B241';
     color4.style.backgroundColor = '#43B241';
@@ -110,7 +106,7 @@ let gridLayout = [
 ]
 
 function renderAdminGridContainer() {
-    let adminSectionEl = document.querySelector('.admin__section');
+    const adminSectionEl = document.querySelector('.admin__section');
     const gridContainer = document.createElement('div');
     gridContainer.className = 'gridContainer';
 
@@ -119,7 +115,7 @@ function renderAdminGridContainer() {
     gridDrawing(starterGrid);
 }
 
-export function gridDrawing(gridLayout) {
+function gridDrawing(gridLayout) {
 
     const gridContainer = document.querySelector('.gridContainer');
     gridContainer.innerHTML = '';
@@ -164,16 +160,29 @@ function pixelClick(i, j, userColor) {
 }
 
 function renderSaveAndLoadBtns() {
-    let adminSectionEl = document.querySelector('.admin__section');
+    const adminSectionEl = document.querySelector('.admin__section');
 
-    let saveBtn = document.createElement('button');
-    saveBtn.innerText = 'Save';
+    const saveBtn = document.createElement('button');
+    saveBtn.innerText = 'Spara';
     saveBtn.classList.add('admin__saveBtn');
 
     adminSectionEl.appendChild(saveBtn);
 
     saveBtn.addEventListener('click', () => {
         postDrawingToDb(gridLayout)
+    });
+
+    const loadBtn = document.createElement('button');
+    loadBtn.innerText = 'Ladda';
+    loadBtn.classList.add('admin__loadBtn');
+    const inputForDrawing = document.createElement('input');
+    inputForDrawing.placeholder = 'ID att ladda in';
+    inputForDrawing.classList.add('admin_loadInput')
+    
+    adminSectionEl.append(inputForDrawing, loadBtn);
+
+    loadBtn.addEventListener('click', () => {
+        getDrawingFromDb()
     })
 
 }
@@ -181,7 +190,7 @@ function renderSaveAndLoadBtns() {
 function postDrawingToDb(gridLayout) {
     console.log('click', gridLayout);
 
-    fetch('http://localhost:3000/admin', {
+    fetch('http://localhost:3000/admin/save', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
@@ -194,3 +203,26 @@ function postDrawingToDb(gridLayout) {
     })
 }
 
+function getDrawingFromDb() {
+
+    const inputLoadEl = document.querySelector('.admin_loadInput');
+
+    console.log('clicked load btn trying to load Id: ', inputLoadEl.value);
+
+    const sendData = {
+        id: inputLoadEl.value
+    };
+
+    fetch('http://localhost:3000/admin/load', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(sendData)
+    })
+    .then(res => res.json())
+    .then(data => {
+        console.log('loaded Drawing', data);
+        gridDrawing(data)
+    })
+}
