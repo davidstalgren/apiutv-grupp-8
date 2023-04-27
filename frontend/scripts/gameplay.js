@@ -111,11 +111,11 @@ function printGameCountdown() {
 
 export function renderDonePlayers(players) {
     const container = document.querySelector('.innerContainer');
+    const playersDone = document.createElement('p');
     if (container) {
         players.forEach(player => {
-        const playersDone = document.createElement('p');
         playersDone.className = 'playersDone';
-        playersDone.innerHTML = player + ' är klar';
+        playersDone.innerHTML += player + ' är klar';
         container.appendChild(playersDone);
     })
     }

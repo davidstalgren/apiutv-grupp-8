@@ -39,6 +39,7 @@ export function renderGridContainer() {
 }
 
 export function gridDrawing(gridLayout) {
+    console.log('has been redrawn')
     const gridContainer = document.querySelector('.gridContainer');
     gridContainer.innerHTML = '';
     

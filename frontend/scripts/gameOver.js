@@ -2,6 +2,7 @@ import { init } from "./main";
 
 const app = document.querySelector('#app');
 
+
 export function renderGameOver(playerGridLayout, resultInProcent, goalGridLayout) {
     app.innerHTML = '';
     const gameOverContainer = document.createElement('div');
