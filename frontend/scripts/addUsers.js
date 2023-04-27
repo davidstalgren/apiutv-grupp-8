@@ -50,6 +50,7 @@ export function renderAddUsers() {
             .then(res => res.json())
             .then(data => {
                 localStorage.setItem("userData", JSON.stringify({userName:data.userName, userId:data.userId}))  //spara användaren i mappen userData i localstorage med userName och userId.
+                playerHasLoggedIn = true;               // För att användaren loginfältet bara ska uppdateras om personen är inloggad.
                 socket.emit('login', userName)
                 renderStartBtn();
             })
@@ -90,5 +91,12 @@ export function drawPlayers(playerTabel) {
         showColor.style.backgroundColor = colors[user.userColor - 1];
 
     })
+}
+
+let playerHasLoggedIn = false;
+
+export function checkUserLogin () {  // För att användaren loginfältet bara ska uppdateras om personen är inloggad.
+    
+    return playerHasLoggedIn 
 }
 
