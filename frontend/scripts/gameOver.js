@@ -1,3 +1,5 @@
+import { init } from "./main";
+
 const app = document.querySelector('#app');
 
 export function renderGameOver(playerGridLayout, resultInProcent, goalGridLayout) {
@@ -14,6 +16,7 @@ export function renderGameOver(playerGridLayout, resultInProcent, goalGridLayout
     const resultInProcentElement = document.createElement('p');
     const button = document.createElement('button');
     const section = document.createElement('section');
+
     gameOverContainer.className = 'gameOverContainer';
     resultInProcentElement.innerText = 'Ni hade: ' + resultInProcent + '% rätt';
     playerGrid.className = 'gridContainer';
@@ -22,6 +25,8 @@ export function renderGameOver(playerGridLayout, resultInProcent, goalGridLayout
     playertitle.innerHTML = 'Er bild';
     goaltitle.innerHTML = 'Facit';
     h2.innerText = 'Spelet Är Slut';
+
+    button.className = 'playAgainBtn';
     button.innerText = 'Spela igen?';
 
     const rows = 15;
@@ -50,4 +55,6 @@ export function renderGameOver(playerGridLayout, resultInProcent, goalGridLayout
     section.append(playerContainer, resultContainer, goalContainer)
     gameOverContainer.append(h2, section)
     app.append(gameOverContainer);
-}
+
+    button.addEventListener('click', init);
+};
