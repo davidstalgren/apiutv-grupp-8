@@ -42,7 +42,7 @@ let victoryGoal = [];
 
 const playerTabel = [{ userName: '', userColor: 1 }, { userName: '', userColor: 2 }, { userName: '', userColor: 3 }, { userName: '', userColor: 4 }]
 let readyPlayers = ['PlayerOne', 'PlayerTwo', 'Playerthree'];
-const playersWhoAreDone = [];
+let playersWhoAreDone = ['PlayerOne', 'PlayerTwo', 'Playerthree'];
 
 io.on('connection', (socket) => {
     socket.on('login', (name) => {
@@ -82,35 +82,44 @@ io.on('connection', (socket) => {
             } catch (err) {
                 console.log(err)
             }
-            console.log(victoryGoal);
             return;
         }
         io.emit('countReadyPlayers', readyPlayers);
     });
 
-    socket.on('finishGame', (playerName) => {
-        if (playersWhoAreDone.contains(playerName)) {
-            playersWhoAreDone.pop(playerName);
-            return;
-        }
-        if (playersWhoAreDone.length === 3) {
+    socket.on('finishGame', (playerInfo) => {
+       
+       for (let i = 0; i < playersWhoAreDone.length; i++) {
+           if (playersWhoAreDone[i].userName == playerInfo.userName) {
+               playersWhoAreDone.slice(i, 1);
+               break
+           }
+         } 
+        if (playersWhoAreDone.length === 4 || playerInfo === 'out of time' ) {
             // Alla är klara, hämta resultatet och jämnför
-            const resultInProcent = compareWithResult(gridLayout, resultGrid);
-            resetActiveGrid();
+            const resultInProcent = compareWithResult(gridLayout, victoryGoal);
+            
             playersWhoAreDone = [];
-            //Spara de spelar gridet, skicka tillbaka resultatet
-            io.emit('gameIsOver', resultInProcent);
+            //TODO: Spara de spelar gridet, skicka tillbaka resultatet 
+            const gameOver = {
+                result: resultInProcent,
+                playerGrid: gridLayout,
+                goalGrid: victoryGoal
+            }
+            io.emit('gameIsOver', gameOver);
+            resetActiveGrid();
             return;
         }
-        playersWhoAreDone.push(playerName);
+
+        playersWhoAreDone.push(playerInfo.userName);
     })
 })
 
 function compareWithResult(playerGrid, resultGrid) {
 
     let fullPossibleScore = 0;
-    for (let i = 0; i < resultGrid.length; i++) {
-        for (let j = 0; j < resultGrid[i].length; j++) {
+    for (let i = 0; i < 15; i++) {
+        for (let j = 0; j < 15; j++) {
             if (resultGrid[i][j] !== 0) {
                 fullPossibleScore++;
             }
@@ -120,7 +129,7 @@ function compareWithResult(playerGrid, resultGrid) {
     let playerScore = 0;
     for (let i = 0; i < playerGrid.length; i++) {
         for (let j = 0; j < playerGrid[i].length; j++) {
-            if (playerGrid[i][j] === resultGrid[i][j]) {
+            if (playerGrid[i][j] === resultGrid[i][j] && playerGrid[i][j] !== 0) {
                 playerScore++;
             }
             if (playerGrid[i][j] !== resultGrid[i][j] && playerGrid[i][j] !== 0) {

@@ -6,6 +6,7 @@ import { renderUserChat, renderUserMessages } from './userChat';
 import { renderReadyPlayers, renderStartInformation } from './information';
 import { gridDrawing, renderGridContainer } from './gridDrawing';
 import { startPicturePreview, renderFinishBtn } from './gameplay';
+import { renderGameOver } from './gameOver';
 const socket = io('http://localhost:3000');
 
 function init() {
@@ -46,9 +47,14 @@ socket.on('countReadyPlayers', (readyPlayer) => {
 
 });
 
-socket.on('gameIsOver', correctResultInProcent => {
-   console.log('correctResultInProcent', correctResultInProcent);
-   // TODO: Rendera ut resultatet
+socket.on('gameIsOver', gameOver => {
+  const grid = gameOver.playerGrid;
+  const goalGrid = gameOver.goalGrid;
+  const result = gameOver.result;
+  console.log(gameOver);
+  console.log(grid, goalGrid, result)
+  renderGameOver(grid, result, goalGrid)
+  
 });
 
 init();
