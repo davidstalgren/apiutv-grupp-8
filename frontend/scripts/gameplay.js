@@ -19,7 +19,7 @@ export function startPicturePreview() {
     renderGridContainer();
 };
 
-socket.on('startGame', (getAnswerGrid) => {  
+socket.on('startGame', (getAnswerGrid) => {
     const goalGrid = getAnswerGrid;
     console.table('goalGrid: ' + goalGrid)
     startPicturePreview()
@@ -40,8 +40,8 @@ function printPreviewCountdown() {
     progress.max = 5;
 
     let timer = 5;
-    let setTimer = setInterval(() =>{
-        if(timer <= 0) {
+    let setTimer = setInterval(() => {
+        if (timer <= 0) {
             clearInterval(setTimer);
             startGame();
         };
@@ -83,20 +83,21 @@ function printGameCountdown() {
 
     progress.value = 0;
     progress.max = 10;
-    
+
     let timer = 10;
-    let setTimer = setInterval(() =>{
-        if(timer <= 0) {
+    let setTimer = setInterval(() => {
+        if (timer <= 0) {
             clearInterval(setTimer);
             outOfTime();
             console.log('Spelet är över');
+            return;
         };
 
         progress.value = 10 - timer;
         timerText.innerHTML = timer + ' sekunder kvar';
 
         timer -= 1;
-       
+
     }, 1000);
 
     innerContainer.append(heading, progress, timerText, finishBtn);
@@ -105,41 +106,25 @@ function printGameCountdown() {
 
     let playerCount = 0;
 
-    /*finishBtn.addEventListener('click', () => {
-        finishGame();
-        if(playerCount < 3) {
-            playerCount++;
-            finishedPlayers.innerHTML = playerCount + ' av 4 spelare klara';
-        } else {
-            finishedPlayers.innerHTML = 'Alla Spelare Klara';
-        };
-        
-    });*/
-
-    finishBtn.addEventListener('click', countDonePlayers);
+    finishBtn.addEventListener('click', () => {
+        finishGame(); // Räknar på server sidan så alla håller samma räkning
+    });
 };
 
-function countDonePlayers() {
-    const finishBtn = document.querySelector('.finishBtn');
-    const userData = JSON.parse(localStorage.getItem('userData'));
-
-    finishBtn.remove();
-    
-    socket.emit('countDonePlayers', userData.userName);
-};
-
-export function renderDonePlayers(playerName) {
+export function renderDonePlayers(players) {
     const container = document.querySelector('.innerContainer');
-    const playersDone = document.createElement('p');
-
-    playersDone.className = 'playersDone';
-
-    playersDone.innerHTML = playerName + ' är klar';
-    container.appendChild(playersDone);
+    if (container) {
+        players.forEach(player => {
+        const playersDone = document.createElement('p');
+        playersDone.className = 'playersDone';
+        playersDone.innerHTML = player + ' är klar';
+        container.appendChild(playersDone);
+    })
+    }
 };
 
 function outOfTime() {
-    socket.emit('finishGame', 'out of time');
+    socket.emit('finishGame', { userName: 'out of time' });
 };
 
 export function finishGame() {

@@ -44,8 +44,8 @@ socket.on('countReadyPlayers', (readyPlayer) => {
   };
 });
 
-socket.on('countDonePlayers', (donePlayer) => {
-  renderDonePlayers(donePlayer);
+socket.on('countDonePlayers', (donePlayers) => {
+  renderDonePlayers(donePlayers);
 });
 
 socket.on('gameIsOver', gameOver => {

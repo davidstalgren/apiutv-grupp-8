@@ -41,8 +41,8 @@ const gridLayout = [
 let victoryGoal = [];
 
 const playerTabel = [{ userName: '', userColor: 1 }, { userName: '', userColor: 2 }, { userName: '', userColor: 3 }, { userName: '', userColor: 4 }]
-let readyPlayers = ['PlayerOne', 'PlayerTwo', 'Playerthree'];
-let playersWhoAreDone = ['PlayerOne', 'PlayerTwo', 'Playerthree'];
+let readyPlayers = ['PlayerOne', ];
+let playersWhoAreDone = ['PlayerOne',];
 
 io.on('connection', (socket) => {
     socket.on('login', (name) => {
@@ -87,18 +87,7 @@ io.on('connection', (socket) => {
         io.emit('countReadyPlayers', readyPlayers);
     });
 
-    socket.on('countDonePlayers', async (playerName) => {
-        /*playersWhoAreDone.push(playerName);
-        if(playersWhoAreDone.length === 4) {
-            try{
-                
-            } catch (err) {
-                console.log('Error', err);
-            }
-            return;
-        };*/
-        io.emit('countDonePlayers', playersWhoAreDone);
-    });
+
 
     socket.on('finishGame', (playerInfo) => {
        
@@ -108,7 +97,7 @@ io.on('connection', (socket) => {
                break
            }
          } 
-        if (playersWhoAreDone.length === 4 || playerInfo === 'out of time' ) {
+        if (playersWhoAreDone.length === 3 || playerInfo.userName === 'out of time' ) {
             // Alla är klara, hämta resultatet och jämnför
             const resultInProcent = compareWithResult(gridLayout, victoryGoal);
             
