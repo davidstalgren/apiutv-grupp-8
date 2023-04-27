@@ -104,8 +104,6 @@ function printGameCountdown() {
     container.appendChild(innerContainer);
     app.appendChild(container);
 
-    let playerCount = 0;
-
     finishBtn.addEventListener('click', () => {
         finishGame(); // Räknar på server sidan så alla håller samma räkning
     });
