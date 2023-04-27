@@ -11,9 +11,10 @@ import { finishGame, renderDonePlayers, startPicturePreview} from './gameplay';
 import { renderGameOver } from './gameOver';
 const socket = io('http://localhost:3000');
 
-function init() {
+export function init() {
 
   const app = document.getElementById('app');
+  app.innerHTML = '';
 
   renderAddUsers();
   renderUserChat();
