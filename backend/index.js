@@ -87,6 +87,19 @@ io.on('connection', (socket) => {
         io.emit('countReadyPlayers', readyPlayers);
     });
 
+    socket.on('countDonePlayers', async (playerName) => {
+        /*playersWhoAreDone.push(playerName);
+        if(playersWhoAreDone.length === 4) {
+            try{
+                
+            } catch (err) {
+                console.log('Error', err);
+            }
+            return;
+        };*/
+        io.emit('countDonePlayers', playersWhoAreDone);
+    });
+
     socket.on('finishGame', (playerInfo) => {
        
        for (let i = 0; i < playersWhoAreDone.length; i++) {
@@ -112,6 +125,7 @@ io.on('connection', (socket) => {
         }
 
         playersWhoAreDone.push(playerInfo.userName);
+        io.emit('countDonePlayers', playersWhoAreDone);
     })
 })
 

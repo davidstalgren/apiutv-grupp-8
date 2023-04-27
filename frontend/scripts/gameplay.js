@@ -73,15 +73,13 @@ function printGameCountdown() {
     const heading = document.createElement('h2');
     const progress = document.createElement('progress');
     const timerText = document.createElement('p');
-    const button = document.createElement('button');
-    const finishedPlayers = document.createElement('p');
+    const finishBtn = document.createElement('button');
 
     container.className = 'countdownContainer';
-    button.className = 'finishBtn';
+    finishBtn.className = 'finishBtn';
 
     heading.innerHTML = 'Börja måla!';
-    button.innerHTML = 'Klar';
-    finishedPlayers.innerHTML = '0 av 4 Spelare klara';
+    finishBtn.innerHTML = 'Klar';
 
     progress.value = 0;
     progress.max = 10;
@@ -90,6 +88,8 @@ function printGameCountdown() {
     let setTimer = setInterval(() =>{
         if(timer <= 0) {
             clearInterval(setTimer);
+            outOfTime();
+            console.log('Spelet är över');
         };
 
         progress.value = 10 - timer;
@@ -99,13 +99,13 @@ function printGameCountdown() {
        
     }, 1000);
 
-    innerContainer.append(heading, progress, timerText, button, finishedPlayers);
+    innerContainer.append(heading, progress, timerText, finishBtn);
     container.appendChild(innerContainer);
     app.appendChild(container);
 
     let playerCount = 0;
 
-    button.addEventListener('click', () => {
+    /*finishBtn.addEventListener('click', () => {
         finishGame();
         if(playerCount < 3) {
             playerCount++;
@@ -114,10 +114,35 @@ function printGameCountdown() {
             finishedPlayers.innerHTML = 'Alla Spelare Klara';
         };
         
-    });
-}
+    });*/
+
+    finishBtn.addEventListener('click', countDonePlayers);
+};
+
+function countDonePlayers() {
+    const finishBtn = document.querySelector('.finishBtn');
+    const userData = JSON.parse(localStorage.getItem('userData'));
+
+    finishBtn.remove();
+    
+    socket.emit('countDonePlayers', userData.userName);
+};
+
+export function renderDonePlayers(playerName) {
+    const container = document.querySelector('.innerContainer');
+    const playersDone = document.createElement('p');
+
+    playersDone.className = 'playersDone';
+
+    playersDone.innerHTML = playerName + ' är klar';
+    container.appendChild(playersDone);
+};
+
+function outOfTime() {
+    socket.emit('finishGame', 'out of time');
+};
 
 export function finishGame() {
     const userData = localStorage.getItem('userData');
     socket.emit('finishGame', userData);
-}
+};
