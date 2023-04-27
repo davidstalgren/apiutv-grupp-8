@@ -41,8 +41,10 @@ const gridLayout = [
 let victoryGoal = [];
 
 const playerTabel = [{ userName: '', userColor: 1 }, { userName: '', userColor: 2 }, { userName: '', userColor: 3 }, { userName: '', userColor: 4 }]
-let readyPlayers = ['PlayerOne', ];
-let playersWhoAreDone = ['PlayerOne',];
+
+let readyPlayers = ['steve',];
+let playersWhoAreDone = ['steve',];
+
 
 io.on('connection', (socket) => {
     socket.on('login', (name) => {
@@ -78,11 +80,12 @@ io.on('connection', (socket) => {
         if (readyPlayers.length === 4) {
             try {
                 setAnswerGrid();
+                resetActiveGrid();
                 readyPlayers = [];
             } catch (err) {
                 console.log(err)
             }
-            return;
+            
         }
         io.emit('countReadyPlayers', readyPlayers);
     });
@@ -90,7 +93,7 @@ io.on('connection', (socket) => {
 
 
     socket.on('finishGame', (playerInfo) => {
-       
+       console.log(playerInfo + playersWhoAreDone)
        for (let i = 0; i < playersWhoAreDone.length; i++) {
            if (playersWhoAreDone[i].userName == playerInfo.userName) {
                playersWhoAreDone.slice(i, 1);
@@ -109,6 +112,7 @@ io.on('connection', (socket) => {
                 goalGrid: victoryGoal
             }
             io.emit('gameIsOver', gameOver);
+
             resetActiveGrid();
             return;
         }
@@ -171,13 +175,28 @@ function setAnswerGrid() {
     })
 }
 
-function saveUserPaintings() {
+function saveUserPaintings(result) {
 const sqlPlayerConn = `INSERT INTO users_userpaintings(userId, paintingId) VALUES ('[value-1]','[value-2]')`;
-const sqlPaintings = `INSERT INTO userpaintings(gridLayout, result) VALUES ('[value-2]','[value-3]')`;
-const playerNames = [];
+const sqlPaintings = `INSERT INTO userpaintings(gridLayout, result) VALUES (?,?)`;
+const sqlgetUserId = 'SELECT userId FROM users WHERE userName = (?)';
+const playerIds = [];
 
     playerTabel.forEach(player => {
-        playerNames.push(player.userName)
+        connection.query(sqlgetUserId, [player.userName], (err, data) => {
+            if(err) {
+                console.log('Err when getting ID: ' + err)
+            }
+            playerIds.push(data)
+        })
+    })
+    connection.query(sqlPaintings, [gridLayout, result], (err, data) => {
+        if (err) {
+            console.log('Error inserting paiting: ' + err)
+        }
+        playerIds.forEach(player => {
+            connection.query(sqlPlayerConn, [player, data])
+        })
+        
     })
 }
 

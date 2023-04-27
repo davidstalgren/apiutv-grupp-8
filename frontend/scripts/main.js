@@ -4,8 +4,10 @@ import { io } from 'socket.io-client';
 import { renderAddUsers, drawPlayers  } from './addUsers'; 
 import { renderUserChat, renderUserMessages } from './userChat';
 import { renderReadyPlayers, renderStartInformation } from './information';
-import { gridDrawing, renderGridContainer } from './gridDrawing';
+
+import { gridDrawing, renderGridContainer, setUserColor } from './gridDrawing';
 import { finishGame, renderDonePlayers, startPicturePreview} from './gameplay';
+
 import { renderGameOver } from './gameOver';
 const socket = io('http://localhost:3000');
 
@@ -33,6 +35,7 @@ socket.on('drawing', (gridlayout) => {
 socket.on('players', playerTabel => {
   if (localStorage.getItem('userData') != undefined) {
     drawPlayers(playerTabel);
+    setUserColor();
   }
 });
 

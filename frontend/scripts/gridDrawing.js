@@ -1,14 +1,16 @@
 import { io } from 'socket.io-client';
 const socket = io('http://localhost:3000');
+let userColor = 0;
 
 const app = document.querySelector('#app');
 
-const userData = JSON.parse(localStorage.getItem('userData'));
-const playerTabel = JSON.parse(localStorage.getItem('playerTabel'));
-const playerTabelArray = playerTabel.playerTabel;
-const foundUser = playerTabelArray.find(user => user.userName === userData.userName);
-
-const userColor = foundUser.userColor;
+export function setUserColor() {
+    const userData = JSON.parse(localStorage.getItem('userData'));
+    const playerTabel = JSON.parse(localStorage.getItem('playerTabel'));
+    const playerTabelArray = playerTabel.playerTabel;
+    const foundUser = playerTabelArray.find(user => user.userName === userData.userName);
+    userColor = foundUser.userColor;
+}
 
 export const starterGrid = [
     [0,0,0,0,0, 0,0,0,0,0, 0,0,0,0,0],        
