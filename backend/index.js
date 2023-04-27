@@ -15,7 +15,7 @@ app.get('/', (req, res) => {
 
 const io = require('socket.io')(server, {
     cors: {
-        origin: 'http://localhost:5173',
+        origin: 'http://127.0.0.1:5173',
         methods: ['GET', 'POST']
     }
 });
@@ -165,6 +165,16 @@ function setAnswerGrid() {
             victoryGoal = jsGrid;
         })
         io.emit('startGame', victoryGoal)
+    })
+}
+
+function saveUserPaintings() {
+const sqlPlayerConn = `INSERT INTO users_userpaintings(userId, paintingId) VALUES ('[value-1]','[value-2]')`;
+const sqlPaintings = `INSERT INTO userpaintings(gridLayout, result) VALUES ('[value-2]','[value-3]')`;
+const playerNames = [];
+
+    playerTabel.forEach(player => {
+        playerNames.push(player.userName)
     })
 }
 

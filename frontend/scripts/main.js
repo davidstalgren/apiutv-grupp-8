@@ -5,7 +5,7 @@ import { renderAddUsers, drawPlayers  } from './addUsers';
 import { renderUserChat, renderUserMessages } from './userChat';
 import { renderReadyPlayers, renderStartInformation } from './information';
 import { gridDrawing, renderGridContainer } from './gridDrawing';
-import { startPicturePreview, renderFinishBtn } from './gameplay';
+import { startPicturePreview} from './gameplay';
 import { renderGameOver } from './gameOver';
 const socket = io('http://localhost:3000');
 
@@ -17,7 +17,6 @@ function init() {
   renderUserChat();
   renderStartInformation();
   renderGridContainer();
-  renderFinishBtn();
 };
 
 socket.on('chat', (user) => {

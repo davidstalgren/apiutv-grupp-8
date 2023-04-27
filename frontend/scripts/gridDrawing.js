@@ -3,7 +3,12 @@ const socket = io('http://localhost:3000');
 
 const app = document.querySelector('#app');
 
-const userColor = 1;
+const userData = JSON.parse(localStorage.getItem('userData'));
+const playerTabel = JSON.parse(localStorage.getItem('playerTabel'));
+const playerTabelArray = playerTabel.playerTabel;
+const foundUser = playerTabelArray.find(user => user.userName === userData.userName);
+
+const userColor = foundUser.userColor;
 
 export const starterGrid = [
     [0,0,0,0,0, 0,0,0,0,0, 0,0,0,0,0],        

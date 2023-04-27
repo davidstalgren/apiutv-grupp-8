@@ -117,12 +117,6 @@ function printGameCountdown() {
     });
 }
 
-export function renderFinishBtn() {
-    const finishBtn = document.createElement('button');
-    finishBtn.innerHTML = 'Klara';
-    finishBtn.addEventListener('click', finishGame);
-    app.appendChild(finishBtn); // test
-}
 export function finishGame() {
     const userData = localStorage.getItem('userData');
     socket.emit('finishGame', userData);
