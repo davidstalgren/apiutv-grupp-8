@@ -30,7 +30,7 @@ socket.on('startGame', (getAnswerGrid) => {
 })
 
 function printPreviewCountdown() {
-    const heading = document.createElement('h3');
+    const heading = document.createElement('h2');
     const progress = document.createElement('progress');
     const timerText = document.createElement('p');
 

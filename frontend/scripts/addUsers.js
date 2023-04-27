@@ -3,6 +3,7 @@ import { initAdminMode } from "./admin";
 const login = document.querySelector('#login');
 const div = document.createElement('div');
 import { io } from 'socket.io-client';
+import { renderStartBtn } from "./information";
 const socket = io('http://localhost:3000');
 div.className = 'userContainer';
 
@@ -50,6 +51,7 @@ export function renderAddUsers() {
             .then(data => {
                 localStorage.setItem("userData", JSON.stringify({userName:data.userName, userId:data.userId}))  //spara användaren i mappen userData i localstorage med userName och userId.
                 socket.emit('login', userName)
+                renderStartBtn();
             })
             .catch ((err) => {
                 console.log(err)
