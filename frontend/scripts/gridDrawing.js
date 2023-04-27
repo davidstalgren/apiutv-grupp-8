@@ -12,7 +12,6 @@ export function setUserColor() {
     userColor = foundUser.userColor;
 }
 
-
 export const starterGrid = [
     [0,0,0,0,0, 0,0,0,0,0, 0,0,0,0,0],        
     [0,0,0,0,0, 0,0,0,0,0, 0,0,0,0,0],        
