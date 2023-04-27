@@ -21,12 +21,16 @@ export function renderUserChat() {
 
   sendChatBtn.addEventListener('click', () => {
     const chatMessage = chatInput.value;
+    const userData = JSON.parse(localStorage.getItem('userData'));
+    const playerTabel = JSON.parse(localStorage.getItem('playerTabel'));
+    const playerTabelArray = playerTabel.playerTabel;
+    const foundUser = playerTabelArray.find(user => user.userName === userData.userName);
 
-    //userInfo är hårdkodad här för att testa, ska ändras!
     let userInfo = {
       message: chatMessage,
-      name: "Test", // user.name
-      color: 1, // user.color
+      name: userData.userName,
+      color: foundUser.userColor,
+      id: userData.userId 
     }
 
     if (chatMessage) {
@@ -40,17 +44,20 @@ export function renderUserChat() {
 };
 
 export function renderUserMessages(user) {
-  let chatMessageContainer = document.querySelector('.chatMessageContainer');
-
+  const chatMessageContainer = document.querySelector('.chatMessageContainer');
+  const colors = ['chatUserRed', 'chatUserYellow', 'chatUserBlue', 'chatUserGreen']; //klassnamn i css
+  const userData = JSON.parse(localStorage.getItem('userData'));
   const messageElement = document.createElement('p');
   messageElement.innerHTML = `${user.name}: ${user.message}`;
 
   chatMessageContainer.append(messageElement);
 
-  if (user.color === 1) {
+  if (user.name === userData.userName) {
     messageElement.classList = 'chatUserMe';
+    messageElement.classList.add(colors[user.color-1]);
   }
   else {
     messageElement.classList = 'chatUserOther';
+    messageElement.classList.add(colors[user.color-1]);
   }
 }
