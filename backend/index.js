@@ -183,12 +183,12 @@ const playerIds = [];
             playerIds.push(data)
         })
     })
-    connection.query(sqlPaintings, [gridLayout, result], (err, data) {
+    connection.query(sqlPaintings, [gridLayout, result], (err, data) => {
         if (err) {
             console.log('Error inserting paiting: ' + err)
         }
         playerIds.forEach(player => {
-            connection.query(sqlPlayerConn, [player, data.])
+            connection.query(sqlPlayerConn, [player, data])
         })
         
     })
