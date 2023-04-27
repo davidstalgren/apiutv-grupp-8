@@ -20,9 +20,8 @@ export function renderGameOver(playerGridLayout, resultInProcent, goalGridLayout
     goalGrid.className = 'gridContainer';
     resultContainer.className = 'resultContainer';
     playertitle.innerHTML = 'Er bild';
-    goaltitle.innerHTML = 'Mål bild';
+    goaltitle.innerHTML = 'Facit';
     h2.innerText = 'Spelet Är Slut';
-
     button.innerText = 'Spela igen?';
 
     const rows = 15;

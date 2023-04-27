@@ -138,6 +138,29 @@ h1 {
   }
 }
 
+.gameOverContainer {
+  font-family: 'Inter', sans-serif;
+
+  h2 {
+    text-transform: uppercase;
+  }
+
+  button {
+    text-transform: uppercase;
+    border-radius: 4px;
+    border: none;
+    padding: 0.5em 3em;
+    margin-bottom: 1em;
+    margin-left: 5px;
+    cursor: pointer;
+    transition: 0.3s ease-in-out;
+
+    &:hover {
+      background-color: #bcbcbc;
+    }
+  }
+}
+
 .footer{
   font-size:larger;
   background-color: #43B241;
