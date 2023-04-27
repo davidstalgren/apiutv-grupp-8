@@ -107,6 +107,7 @@ io.on('connection', (socket) => {
                 goalGrid: victoryGoal
             }
             io.emit('gameIsOver', gameOver);
+
             resetActiveGrid();
             return;
         }
@@ -168,13 +169,28 @@ function setAnswerGrid() {
     })
 }
 
-function saveUserPaintings() {
+function saveUserPaintings(result) {
 const sqlPlayerConn = `INSERT INTO users_userpaintings(userId, paintingId) VALUES ('[value-1]','[value-2]')`;
-const sqlPaintings = `INSERT INTO userpaintings(gridLayout, result) VALUES ('[value-2]','[value-3]')`;
-const playerNames = [];
+const sqlPaintings = `INSERT INTO userpaintings(gridLayout, result) VALUES (?,?)`;
+const sqlgetUserId = 'SELECT userId FROM users WHERE userName = (?)';
+const playerIds = [];
 
     playerTabel.forEach(player => {
-        playerNames.push(player.userName)
+        connection.query(sqlgetUserId, [player.userName], (err, data) => {
+            if(err) {
+                console.log('Err when getting ID: ' + err)
+            }
+            playerIds.push(data)
+        })
+    })
+    connection.query(sqlPaintings, [gridLayout, result], (err, data) {
+        if (err) {
+            console.log('Error inserting paiting: ' + err)
+        }
+        playerIds.forEach(player => {
+            connection.query(sqlPlayerConn, [player, data.])
+        })
+        
     })
 }
 
