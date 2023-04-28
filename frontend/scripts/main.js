@@ -1,7 +1,7 @@
 import '../style/style.css';
 import { io } from 'socket.io-client';
 
-import { renderAddUsers, drawPlayers  } from './addUsers'; 
+import { renderAddUsers, drawPlayers, checkUserLogin  } from './addUsers'; 
 import { renderUserChat, renderUserMessages } from './userChat';
 import { renderReadyPlayers, renderStartInformation } from './information';
 
@@ -33,8 +33,9 @@ socket.on('drawing', (gridlayout) => {
 
 });
 
+
 socket.on('players', playerTabel => {
-  if (localStorage.getItem('userData') != undefined) {
+  if (checkUserLogin())  {    // För att användaren loginfältet bara ska uppdateras om personen är inloggad.
     drawPlayers(playerTabel);
     setUserColor();
   }
