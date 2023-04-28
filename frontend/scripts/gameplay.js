@@ -26,7 +26,7 @@ socket.on('startGame', (getAnswerGrid) => {
     gridDrawing(goalGrid);
     setTimeout(() => {
         gridDrawing(starterGrid);
-    }, 5000)
+    }, 15000)
 })
 
 function printPreviewCountdown() {
@@ -37,20 +37,20 @@ function printPreviewCountdown() {
     container.className = 'countdownContainer';
     heading.innerHTML = 'Förhandsvisning';
     progress.value = 0;
-    progress.max = 5;
+    progress.max = 15;
 
-    let timer = 5;
+    let timer = 15;
     let setTimer = setInterval(() => {
         if (timer <= 0) {
             clearInterval(setTimer);
             startGame();
         };
 
-        progress.value = 5 - timer;
+        progress.value = 15 - timer;
         timerText.innerHTML = timer + ' sekunder kvar';
 
         timer -= 1;
-    }, 500);
+    }, 1000);
 
     innerContainer.append(heading, progress, timerText);
     container.appendChild(innerContainer);
@@ -82,9 +82,9 @@ function printGameCountdown() {
     finishBtn.innerHTML = 'Klar';
 
     progress.value = 0;
-    progress.max = 10;
+    progress.max = 30;
 
-    let timer = 10;
+    let timer = 30;
     let setTimer = setInterval(() => {
         if (timer <= 0) {
             clearInterval(setTimer);
@@ -93,7 +93,7 @@ function printGameCountdown() {
             return;
         };
 
-        progress.value = 10 - timer;
+        progress.value = 30 - timer;
         timerText.innerHTML = timer + ' sekunder kvar';
 
         timer -= 1;

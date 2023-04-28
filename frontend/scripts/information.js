@@ -13,8 +13,7 @@ export function renderStartInformation() {
         'Spelarna har därefter 3 min på sig att försöka eftersträva originalbilden', 
         'Om spelarna blir klara innan tiden går ut kan man klicka på klar för att avsluta spelet',
         'Alla spelare måste klicka på klar innan spelet kan avslutas',
-        'När tiden går ut avslutas spelet och ett resultat kommer presenteras',
-        'Spelaren kan därefter visa tidigare målade bilder eller spela igen'
+        'När tiden går ut avslutas spelet och ett resultat kommer presenteras'
     ];
     const playerContainer = document.createElement('div');
 
