@@ -10,8 +10,6 @@ const innerContainer = document.createElement('div');
 innerContainer.className = 'innerContainer';
 
 export function startPicturePreview() {
-    console.log('Spelet är igång');
-
     app.innerHTML = '';
     renderAddUsers();
     renderUserChat();
@@ -27,7 +25,7 @@ socket.on('startGame', (getAnswerGrid) => {
     setTimeout(() => {
         gridDrawing(starterGrid);
     }, 15000)
-})
+});
 
 function printPreviewCountdown() {
     const heading = document.createElement('h2');
@@ -114,11 +112,11 @@ export function renderDonePlayers(players) {
     const playersDone = document.createElement('p');
     if (container) {
         players.forEach(player => {
-        playersDone.className = 'playersDone';
-        playersDone.innerHTML += player + ' är klar';
-        container.appendChild(playersDone);
-    })
-    }
+            playersDone.className = 'playersDone';
+            playersDone.innerHTML += player + ' är klar';
+            container.appendChild(playersDone);
+        });
+    };
 };
 
 function outOfTime() {

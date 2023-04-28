@@ -33,7 +33,6 @@ socket.on('drawing', (gridlayout) => {
 
 });
 
-
 socket.on('players', playerTabel => {
   if (checkUserLogin())  {    // För att användaren loginfältet bara ska uppdateras om personen är inloggad.
     drawPlayers(playerTabel);
@@ -57,10 +56,8 @@ socket.on('gameIsOver', gameOver => {
   const grid = gameOver.playerGrid;
   const goalGrid = gameOver.goalGrid;
   const result = gameOver.result;
-  console.log(gameOver);
-  console.log(grid, goalGrid, result)
-  renderGameOver(grid, result, goalGrid)
-  
+
+  renderGameOver(grid, result, goalGrid)  
 });
 
 init();

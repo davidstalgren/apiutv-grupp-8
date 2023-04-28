@@ -10,7 +10,7 @@ app.use('/users', userRouter);
 app.use('/admin', adminRouter);
 
 app.get('/', (req, res) => {
-    res.send('fungerar servern?');
+    res.send('Servern fungerar');
 });
 
 const io = require('socket.io')(server, {
@@ -42,8 +42,8 @@ let victoryGoal = [];
 
 const playerTabel = [{ userName: '', userColor: 1 }, { userName: '', userColor: 2 }, { userName: '', userColor: 3 }, { userName: '', userColor: 4 }]
 
-let readyPlayers = ['a','b','c'];
-let playersWhoAreDone = ['a','b','c'];
+let readyPlayers = [];
+let playersWhoAreDone = [];
 
 io.on('connection', (socket) => {
     socket.on('login', (name) => {
@@ -88,8 +88,6 @@ io.on('connection', (socket) => {
         }
         io.emit('countReadyPlayers', readyPlayers);
     });
-
-
 
     socket.on('finishGame', (playerInfo) => {
        console.log(playerInfo + playersWhoAreDone)
